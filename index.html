@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maali</title>
+<meta name="description" content="Maali is an open-source irrigation controller you build and keep. It waters by how thirsty the soil is, works without any cloud, and explains itself in plain sentences.">
+<link rel="canonical" href="https://maali.garden/">
+<meta property="og:title" content="Maali">
+<meta property="og:description" content="A watering computer that thinks like a gardener. No cloud, no account, no monthly anything.">
+<meta property="og:url" content="https://maali.garden/">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'%3E%3Ccircle cx='9' cy='9' r='8' fill='none' stroke='%230E5D6E' stroke-width='1.4'/%3E%3Cpath d='M9 13.5V6.2M9 6.2C9 6.2 6.2 6.6 6.2 9c0 0 2.8.3 2.8-2.8Zm0 2.9c0 0 2.8.4 2.8-2 0 0-2.8-.3-2.8 2Z' fill='none' stroke='%230E5D6E' stroke-width='1.3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<style>
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('fonts/Archivo-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 600;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('fonts/Archivo-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Archivo';
+  font-style: normal;
+  font-weight: 700;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url('fonts/Archivo-700.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/IBMPlexMono-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/IBMPlexMono-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('fonts/IBMPlexMono-600.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('fonts/Newsreader-300.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('fonts/Newsreader-400.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Newsreader';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('fonts/Newsreader-500.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+</style>
+</head>
+<body>
+<style>
+/* ---------- tokens : light is the base, both themes defined at token level ---------- */
+:root{
+  --ground:#E8EAE4;
+  --panel:#F2F3EE;
+  --panel-2:#DEE2D9;
+  --ink:#141C18;
+  --ink-soft:#525E57;
+  --ink-faint:#7C877F;
+  --rule:#C8CEC3;
+  --rule-soft:#D8DCD2;
+  --water:#0E5D6E;
+  --water-fill:rgba(14,93,110,.13);
+  --copper:#A0491F;
+  --copper-fill:rgba(160,73,31,.12);
+  --good:#2F6B3C;
+  --shadow:0 1px 0 rgba(20,28,24,.05);
+  --grid:rgba(20,28,24,.07);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ground:#0D1211;
+    --panel:#141A18;
+    --panel-2:#1D2523;
+    --ink:#DDE3DB;
+    --ink-soft:#98A29A;
+    --ink-faint:#6C766E;
+    --rule:#27302C;
+    --rule-soft:#1E2624;
+    --water:#5CBCCD;
+    --water-fill:rgba(92,188,205,.14);
+    --copper:#E0925F;
+    --copper-fill:rgba(224,146,95,.13);
+    --good:#6FAE72;
+    --shadow:0 1px 0 rgba(0,0,0,.3);
+    --grid:rgba(221,227,219,.07);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0D1211;
+  --panel:#141A18;
+  --panel-2:#1D2523;
+  --ink:#DDE3DB;
+  --ink-soft:#98A29A;
+  --ink-faint:#6C766E;
+  --rule:#27302C;
+  --rule-soft:#1E2624;
+  --water:#5CBCCD;
+  --water-fill:rgba(92,188,205,.14);
+  --copper:#E0925F;
+  --copper-fill:rgba(224,146,95,.13);
+  --good:#6FAE72;
+  --shadow:0 1px 0 rgba(0,0,0,.3);
+  --grid:rgba(221,227,219,.07);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground);
+  color:var(--ink);
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;
+  font-size:18px;
+  line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--water);color:var(--ground)}
+a{color:inherit;text-decoration-color:var(--rule);text-underline-offset:3px}
+a:hover{text-decoration-color:var(--water)}
+:focus-visible{outline:2px solid var(--water);outline-offset:3px;border-radius:2px}
+
+/* ---------- shared shells ---------- */
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.measure{max-width:62ch;margin-left:auto;margin-right:auto}
+.stack{display:flex;flex-direction:column}
+
+h1,h2,h3,.ui{font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif}
+h2{
+  font-size:clamp(28px,3.6vw,40px);font-weight:700;line-height:1.1;
+  letter-spacing:-.022em;margin:0;text-wrap:balance;
+}
+h3{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0;line-height:1.3}
+p{margin:0}
+.lede{font-size:clamp(19px,2vw,22px);line-height:1.55;color:var(--ink-soft);font-weight:300}
+.mono,.tag,.kpi-n,table{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+.tag{
+  font-size:11px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--ink-faint);
+}
+.tag .dot{color:var(--water)}
+
+/* ---------- top bar ---------- */
+.bar{
+  border-bottom:1px solid var(--rule);
+  position:sticky;top:0;z-index:20;
+  background:color-mix(in srgb,var(--ground) 88%,transparent);
+  backdrop-filter:blur(10px);
+}
+.bar-in{display:flex;align-items:center;gap:22px;height:56px}
+.brand{font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:-.02em;font-size:17px;display:flex;align-items:center;gap:9px}
+.brand svg{display:block}
+.bar nav{margin-left:auto;display:flex;gap:22px;align-items:center}
+.bar nav a{font-family:"Archivo",sans-serif;font-size:13.5px;font-weight:500;color:var(--ink-soft);text-decoration:none}
+.bar nav a:hover{color:var(--ink)}
+.pill{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;
+  border:1px solid var(--rule);border-radius:999px;padding:4px 10px;color:var(--ink-soft);
+  white-space:nowrap;
+}
+@media (max-width:760px){.bar nav a.hide-sm{display:none}}
+
+/* ---------- hero ---------- */
+.hero{padding:76px 0 0}
+.hero h1{
+  font-size:clamp(42px,7.4vw,84px);font-weight:700;line-height:.95;
+  letter-spacing:-.038em;margin:0;text-wrap:balance;max-width:14ch;
+}
+.hero h1 em{font-style:normal;color:var(--water)}
+.hero-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:end}
+.hero-sub{display:flex;flex-direction:column;gap:20px;padding-bottom:6px}
+.hero-sub p{font-size:19px;line-height:1.55;color:var(--ink-soft);font-weight:300;max-width:44ch}
+.hero-meta{display:flex;flex-wrap:wrap;gap:8px}
+@media (max-width:860px){.hero-grid{grid-template-columns:1fr;gap:30px;align-items:start}.hero{padding-top:52px}}
+
+/* ---------- instrument panel : the recurring device motif ---------- */
+.panel{
+  border:1px solid var(--rule);background:var(--panel);
+  box-shadow:var(--shadow);position:relative;
+}
+.panel-head{
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;
+  padding:11px 16px;border-bottom:1px solid var(--rule);
+  background:var(--panel-2);
+}
+.panel-head .tag{color:var(--ink-soft)}
+.panel-head .right{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.04em}
+.panel-body{padding:18px 16px}
+
+/* ledger */
+.ledger{margin-top:52px}
+#ledger-canvas{display:block;width:100%;height:236px}
+.ledger-legend{
+  display:flex;gap:20px;flex-wrap:wrap;padding:10px 16px;border-top:1px solid var(--rule-soft);
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint);letter-spacing:.03em;
+}
+.ledger-legend span{display:flex;align-items:center;gap:7px}
+.swatch{width:16px;height:2px;background:var(--water)}
+.swatch.dash{background:transparent;border-top:2px dashed var(--copper)}
+.swatch.tick{width:2px;height:12px;background:var(--water)}
+.verdict{
+  padding:16px;border-top:1px solid var(--rule);display:flex;gap:16px;align-items:flex-start;
+  background:var(--panel);
+}
+.verdict-key{flex:0 0 auto}
+.prov{
+  padding:12px 16px;border-top:1px solid var(--rule-soft);background:var(--panel-2);
+  font-size:13px;line-height:1.55;color:var(--ink-faint);
+}
+.prov .mono{font-size:12px;color:var(--ink-soft)}
+.verdict-txt{font-size:17.5px;line-height:1.5;min-height:3.1em}
+.verdict-txt b{font-weight:500;font-family:"IBM Plex Mono",monospace;font-size:15.5px;color:var(--water);letter-spacing:-.01em}
+.caret{display:inline-block;width:8px;height:1.05em;vertical-align:-3px;background:var(--water);opacity:.85;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.caret{animation:none;opacity:0}}
+
+/* ---------- sections ---------- */
+section{padding:96px 0}
+.sec-head{display:flex;flex-direction:column;gap:16px;max-width:60ch}
+.rule-top{border-top:1px solid var(--rule)}
+.prose{display:flex;flex-direction:column;gap:20px;margin-top:26px}
+.prose p{color:var(--ink-soft)}
+.prose p strong{color:var(--ink);font-weight:500}
+
+/* comparison */
+.compare{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:44px;border:1px solid var(--rule);background:var(--panel)}
+.col{padding:20px 18px;border-right:1px solid var(--rule);display:flex;flex-direction:column;gap:12px}
+.col:last-child{border-right:0}
+.col.mine{background:var(--panel-2);position:relative}
+.col.mine::before{content:"";position:absolute;inset:-1px -1px auto -1px;height:3px;background:var(--water)}
+.col h3{font-size:16px}
+.col .who{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.col li{font-size:14.5px;line-height:1.45;color:var(--ink-soft);display:flex;gap:8px;align-items:flex-start}
+.col li::before{content:"—";color:var(--ink-faint);font-family:"IBM Plex Mono",monospace;font-size:12px;flex:0 0 auto;line-height:1.5}
+.col.mine li::before{content:"+";color:var(--water)}
+.col.mine li{color:var(--ink)}
+@media (max-width:880px){.compare{grid-template-columns:1fr 1fr}.col{border-bottom:1px solid var(--rule)}.col:nth-child(2n){border-right:0}}
+@media (max-width:520px){.compare{grid-template-columns:1fr}.col{border-right:0}}
+
+/* safety stack */
+.stackdiag{display:flex;flex-direction:column;gap:0;margin-top:40px;border:1px solid var(--rule)}
+.layer{display:grid;grid-template-columns:132px 1fr 260px;gap:0;border-bottom:1px solid var(--rule);background:var(--panel)}
+.layer:last-child{border-bottom:0}
+.layer .lv{
+  padding:18px 16px;border-right:1px solid var(--rule);background:var(--panel-2);
+  font-family:"IBM Plex Mono",monospace;font-size:12px;letter-spacing:.05em;color:var(--ink-faint);
+  display:flex;flex-direction:column;gap:5px;
+}
+.layer .lv b{font-size:24px;color:var(--ink);font-weight:600;letter-spacing:-.02em;line-height:1}
+.layer.hw .lv b{color:var(--copper)}
+.layer .what{padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.layer .what p{font-size:15px;color:var(--ink-soft);line-height:1.5}
+.layer .survives{
+  padding:18px 16px;border-left:1px solid var(--rule);
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);line-height:1.5;
+}
+.layer .survives em{font-style:normal;display:block;font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.layer.hw{background:var(--copper-fill)}
+@media (max-width:820px){.layer{grid-template-columns:1fr}.layer .lv{border-right:0;border-bottom:1px solid var(--rule);flex-direction:row;align-items:baseline;gap:10px}.layer .survives{border-left:0;border-top:1px solid var(--rule-soft)}}
+
+/* own grid */
+.owns{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule);border:1px solid var(--rule);margin-top:44px}
+.own{background:var(--panel);padding:22px 20px;display:flex;flex-direction:column;gap:9px}
+.own .n{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.1em;color:var(--water);text-transform:uppercase}
+.own p{font-size:14.5px;color:var(--ink-soft);line-height:1.5}
+@media (max-width:820px){.owns{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.owns{grid-template-columns:1fr}}
+
+/* money */
+.money{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:44px;border:1px solid var(--rule)}
+.money>div{padding:26px 24px;background:var(--panel);display:flex;flex-direction:column;gap:14px}
+.money>div+div{border-left:1px solid var(--rule)}
+.money .amount{font-family:"Archivo",sans-serif;font-size:clamp(38px,5vw,54px);font-weight:700;letter-spacing:-.035em;line-height:1}
+.money .theirs .amount{color:var(--ink-faint)}
+.money .mine .amount{color:var(--water)}
+.money .sub{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);letter-spacing:.03em}
+.money ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:8px;font-size:14.5px;color:var(--ink-soft)}
+.money li{display:flex;gap:9px;line-height:1.45}
+.money li span:first-child{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);flex:0 0 auto;padding-top:2px}
+@media (max-width:700px){.money{grid-template-columns:1fr}.money>div+div{border-left:0;border-top:1px solid var(--rule)}}
+.bom{margin-top:14px;overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--rule-soft);white-space:nowrap}
+th{font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);font-weight:500}
+td{color:var(--ink-soft)}
+td.num{text-align:right}
+tr:last-child td{border-bottom:0}
+tr.total td{color:var(--ink);font-weight:600;border-top:1px solid var(--rule)}
+
+/* build steps */
+.steps{display:flex;flex-direction:column;margin-top:40px;border-top:1px solid var(--rule)}
+.step{display:grid;grid-template-columns:56px 1fr 140px;gap:20px;padding:20px 4px;border-bottom:1px solid var(--rule);align-items:baseline}
+.step .idx{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--water);letter-spacing:.05em}
+.step .body{display:flex;flex-direction:column;gap:6px}
+.step .body p{font-size:15px;color:var(--ink-soft);line-height:1.5}
+.step .time{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);text-align:right}
+@media (max-width:700px){.step{grid-template-columns:34px 1fr;gap:14px}.step .time{grid-column:2;text-align:left}}
+
+/* status board */
+.board{margin-top:40px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--rule);border-bottom:1px solid var(--rule)}
+.kpi{background:var(--panel);padding:18px 16px;display:flex;flex-direction:column;gap:4px}
+.kpi-n{font-size:26px;font-weight:600;letter-spacing:-.03em;color:var(--ink);font-variant-numeric:tabular-nums;line-height:1.1}
+.kpi-l{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace}
+@media (max-width:700px){.kpis{grid-template-columns:1fr 1fr}}
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:96px 1fr 200px;gap:16px;padding:14px 16px;border-bottom:1px solid var(--rule-soft);align-items:baseline;background:var(--panel)}
+.row:last-child{border-bottom:0}
+.row .id{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+.row .txt{font-size:15px;color:var(--ink-soft);line-height:1.45}
+.state{
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;text-transform:uppercase;
+  display:inline-flex;align-items:center;gap:7px;
+}
+.state::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.state.paid{color:var(--good)}
+.state.open{color:var(--copper)}
+@media (max-width:700px){.row{grid-template-columns:1fr;gap:6px}}
+
+/* callout */
+.callout{
+  border-left:3px solid var(--copper);background:var(--copper-fill);
+  padding:18px 22px;margin-top:34px;
+}
+.callout p{font-size:16px;line-height:1.55;color:var(--ink)}
+.callout .tag{margin-bottom:7px;color:var(--copper)}
+
+/* footer */
+footer{border-top:1px solid var(--rule);padding:56px 0 72px;background:var(--panel)}
+.foot{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px}
+.foot h4{font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 12px;font-weight:600}
+.foot ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14.5px}
+.foot a{color:var(--ink-soft);text-decoration:none}
+.foot a:hover{color:var(--water)}
+.foot .about p{font-size:14.5px;color:var(--ink-soft);line-height:1.55;max-width:38ch}
+.foot .name{font-family:"Archivo",sans-serif;font-weight:700;font-size:16px;color:var(--ink);margin-bottom:10px;letter-spacing:-.02em}
+.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--rule-soft);font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);display:flex;gap:18px;flex-wrap:wrap}
+@media (max-width:760px){.foot{grid-template-columns:1fr;gap:28px}}
+</style>
+
+<header class="bar">
+  <div class="wrap bar-in">
+    <span class="brand">
+      <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+        <circle cx="9" cy="9" r="8" fill="none" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M9 13.5V6.2M9 6.2C9 6.2 6.2 6.6 6.2 9c0 0 2.8.3 2.8-2.8Zm0 2.9c0 0 2.8.4 2.8-2 0 0-2.8-.3-2.8 2Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      maali
+    </span>
+    <nav>
+      <a href="#thinks" class="hide-sm">How it thinks</a>
+      <a href="#safety" class="hide-sm">Safety</a>
+      <a href="#own" class="hide-sm">What you own</a>
+      <a href="#build">Build it</a>
+      <a href="#status" class="pill">v0.2.1 &middot; on the bench</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<div class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <h1>Your yard deserves a gardener, not <em>an alarm clock.</em></h1>
+      <div class="hero-sub">
+        <p>Maali is a small watering computer you build once and keep forever. It lives beside your valves, watches your weather, and waters each bed only when the soil is truly getting thirsty. Then it tells you what it did, in plain words.</p>
+        <div class="hero-meta">
+          <span class="pill">Nothing phones home</span>
+          <span class="pill">No monthly anything</span>
+          <span class="pill">No account to make</span>
+          <span class="pill">About $307 in parts</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- the thesis, as an instrument -->
+    <div class="panel ledger">
+      <div class="panel-head">
+        <span class="tag"><span class="dot">●</span> Back lawn &middot; cool-season turf, spray, loam</span>
+        <span class="right" id="ledger-range">Sacramento &middot; 5–25 July 2024</span>
+      </div>
+      <div class="panel-body" style="padding:14px 8px 4px">
+        <canvas id="ledger-canvas" aria-label="Twenty-one days of soil moisture deficit for a lawn zone during the July 2024 Sacramento heat wave. The deficit climbs each day as the plants use water and drops each time the zone is watered, sawtoothing against a dashed line that marks the point at which the controller schedules a run. Eight runs occur across the window."></canvas>
+      </div>
+      <div class="ledger-legend">
+        <span><i class="swatch"></i> deficit, inches</span>
+        <span><i class="swatch dash"></i> waters at 0.60", half of the 1.20" this soil holds</span>
+        <span><i class="swatch tick"></i> 8 runs, 356 minutes total</span>
+        <span style="color:var(--copper)">6.38" of ET in 21 days &middot; 0" of rain</span>
+      </div>
+      <div class="verdict">
+        <span class="tag verdict-key">Verdict</span>
+        <p class="verdict-txt" id="verdict"></p>
+      </div>
+      <div class="prov">
+        This is not a picture we drew to look nice. It is real Sacramento weather
+        from July 2024, the meanest stretch we have on file, replayed through the
+        very same <span class="mono">water_balance</span> and
+        <span class="mono">schedule_engine</span> code that opens the valve.
+        We picked the hard week on purpose.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ THE THREE BAD OPTIONS ============ -->
+<section id="options">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">The trouble with timers</span>
+      <h2>Every box at the store asks you to give something up.</h2>
+    </div>
+    <div class="prose measure" style="margin-left:0">
+      <p>You have probably stood in that aisle already, which may be why you are here. Here is the honest shape of the choice, with no hard feelings toward any of them.</p>
+    </div>
+
+    <div class="compare">
+      <div class="col">
+        <span class="who">Dial controllers</span>
+        <h3>Faithful, but deaf</h3>
+        <ul>
+          <li>Runs the same minutes in a heat wave and in a storm</li>
+          <li>Cannot tell you how much water you used</li>
+          <li>A valve that stuck open on Tuesday is still open</li>
+        </ul>
+      </div>
+      <div class="col">
+        <span class="who">Smart controllers</span>
+        <h3>Clever, but not yours</h3>
+        <ul>
+          <li>Every watering decision takes a trip through somebody's cloud</li>
+          <li>When their servers have a bad day, so does your lawn</li>
+          <li>Features you bought have a way of moving behind a plan</li>
+          <li>Your yard quietly becomes somebody's data</li>
+        </ul>
+      </div>
+      <div class="col">
+        <span class="who">Open source, so far</span>
+        <h3>Yours, but hard work</h3>
+        <ul>
+          <li>Honest ownership, with the charm of a decade ago</li>
+          <li>A wall of settings where a sentence should be</li>
+          <li>You are expected to enjoy the fiddling</li>
+        </ul>
+      </div>
+      <div class="col mine">
+        <span class="who">Maali</span>
+        <h3>Why choose?</h3>
+        <ul>
+          <li>Smart: it minds your soil, not the calendar</li>
+          <li>Local: it decides at home, even with the internet out</li>
+          <li>Open: every line of it yours to read and change</li>
+          <li>Kind: it explains itself in plain sentences</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT THINKS ============ -->
+<section id="thinks" class="rule-top">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">How it thinks</span>
+      <h2>It keeps a ledger of the water in your soil.</h2>
+    </div>
+
+    <div class="prose measure" style="margin-left:0">
+      <p>A timer knows what day it is. Your lawn does not care what day it is. It cares how much water is left in the soil. So every bed in Maali carries a running ledger: the sun and wind and thirsty roots take water out, the rain and the sprinklers put water back. That ledger is the whole brain.</p>
+      <p>One quiet idea, and you feel it everywhere. <strong>Four hot days with the power out earn a long drink when it wakes. Four cool days with rain earn nothing at all.</strong> Nobody wrote a catch-up rule for either one. The ledger simply still knew what the soil was owed. Nothing was missed, so there is no missed-run setting to fuss over.</p>
+      <p>Maali reads the daily thirst number from a free public weather service, the same number the chart above is drawn from. During setup it looks up the actual soil under your yard from the public soil survey, and it asks what is planted in words you would use over a fence: <span class="mono" style="font-size:15px">lawn</span>, <span class="mono" style="font-size:15px">shrubs</span>, <span class="mono" style="font-size:15px">natives</span>. Nobody will ask you for a crop coefficient. If the weather feed goes quiet, it waters carefully from your local averages and says so right on the screen.</p>
+      <p><strong>And then it tells you, in a sentence.</strong> You get minutes, and a because. Never inches, never coefficients, unless you go looking. And if you do like the numbers, they are all there, honest and editable, one tap deeper. Both kinds of gardener are welcome here.</p>
+    </div>
+
+    <div class="callout">
+      <span class="tag">Our one house rule</span>
+      <p>If you cannot guess what your controller will do tomorrow morning, we have failed you. No pile of settings makes up for that.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SAFETY ============ -->
+<section id="safety" class="rule-top">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Safety</span>
+      <h2>Four layers stop the water. The first one is not software.</h2>
+    </div>
+    <div class="prose measure" style="margin-left:0">
+      <p>A watering computer can make exactly one unforgivable mess: water that will not stop. So the promise that matters most here is the one that keeps working when the software has lost its wits entirely.</p>
+    </div>
+
+    <div class="stackdiag">
+      <div class="layer hw">
+        <div class="lv"><b>0</b><span>hardware</span></div>
+        <div class="what">
+          <h3>The relay board closes the valve by itself</h3>
+          <p>Every valve is switched on with a countdown that lives on the relay board itself. When the countdown runs out, the board shuts the valve on its own. No firmware, no network, not even controller power is needed for that to happen.</p>
+        </div>
+        <div class="survives"><em>Survives</em> A dead processor. A cut ethernet. A yanked power supply.</div>
+      </div>
+      <div class="layer">
+        <div class="lv"><b>1</b><span>supervisor</span></div>
+        <div class="what">
+          <h3>A second task watches the first</h3>
+          <p>A second, stubborn little task keeps its own watch. It enforces the longest a valve may ever run, and once a second it asks the relays what they are really doing and raises a fuss if the answer does not match.</p>
+        </div>
+        <div class="survives"><em>Survives</em> Application bugs. A hung scheduler.</div>
+      </div>
+      <div class="layer">
+        <div class="lv"><b>2</b><span>constraints</span></div>
+        <div class="what">
+          <h3>Bad programs are refused at save time</h3>
+          <p>Programs are checked the moment you save them, against run caps, watering rules, and beds that would quarrel. A thirsty ledger can never talk anybody into a run longer than the ceiling.</p>
+        </div>
+        <div class="survives"><em>Survives</em> Configuration mistakes. Fat fingers.</div>
+      </div>
+      <div class="layer">
+        <div class="lv"><b>3</b><span>safe states</span></div>
+        <div class="what">
+          <h3>All commands pass through one gate</h3>
+          <p>Every command walks through one gate, where all the safety rules live together in one place. A rule the gate does not recognise means no. And every no is written in the daybook with its reason, in plain language, for you to read.</p>
+        </div>
+        <div class="survives"><em>Survives</em> Everything we thought of, and the shape of what we didn't.</div>
+      </div>
+    </div>
+
+    <div class="prose measure" style="margin-left:0;margin-top:34px">
+      <p>Down the pipe, one flow meter learns what each bed normally drinks. Water moving when nothing was asked for, or far too much of it, means a burst line: everything locks shut and you are told. A trickle where a gush belongs means a clogged filter or a tired valve. <strong>We tuned those alarms to hardly ever cry wolf</strong>, because a false alarm that stops the water in a hot week hurts more than a small leak found a day later.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ WHAT YOU OWN ============ -->
+<section id="own" class="rule-top">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">What you own</span>
+      <h2>The whole thing lives in the little box by your valves.</h2>
+    </div>
+    <div class="prose measure" style="margin-left:0">
+      <p>That is not a slogan. The code is held to it as a rule: nothing outside your house can put water on your ground. Everything below follows from it.</p>
+    </div>
+
+    <div class="owns">
+      <div class="own"><span class="n">No account</span><p>There is nothing to sign up for. You choose a password for the box during setup, and that is the entire ceremony.</p></div>
+      <div class="own"><span class="n">No cloud</span><p>It makes exactly two calls out: one for the weather, one to ask if an update exists. Both optional. Nothing else ever leaves the building.</p></div>
+      <div class="own"><span class="n">No telemetry</span><p>Your watering history, your soil, your bed names. They stay in the box. Nobody studies them, nobody bundles them, nobody sells them.</p></div>
+      <div class="own"><span class="n">Its own web app</span><p>The whole app is served from the controller itself. No outside scripts, no borrowed fonts, nothing fetched from anywhere. It works with the internet unplugged.</p></div>
+      <div class="own"><span class="n">Home Assistant</span><p>If you run Home Assistant, Maali introduces itself and your beds, programs, and faults all appear on their own. Entirely optional; nothing leans on it.</p></div>
+      <div class="own"><span class="n">Your calendar</span><p>The week's waterings come as a calendar feed any calendar app can subscribe to. The lawn's drink shows up right next to soccer practice.</p></div>
+      <div class="own"><span class="n">A real API</span><p>Plain, honest web calls over your own network. Script it, poke it, wire it into whatever you already run. It is your controller, after all.</p></div>
+      <div class="own"><span class="n">Signed updates</span><p>New firmware is signature-checked, tried in a spare slot, and quietly rolled back if it fails to wake up properly. Nothing installs itself unless you ask it to.</p></div>
+      <div class="own"><span class="n">The source</span><p>All of it is published. If this project stops tomorrow, your controller keeps watering and you keep every ability to tend it yourself.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MONEY ============ -->
+<section id="cost" class="rule-top">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">What it costs</span>
+      <h2>You pay once, for parts, and then you are done paying.</h2>
+    </div>
+    <div class="prose measure" style="margin-left:0">
+      <p>Nobody sells Maali. There is no company and no box with a barcode. There is a parts list with links, a spare source for every line, and you order it yourself, the way you would for any good weekend project.</p>
+    </div>
+
+    <div class="money">
+      <div class="theirs">
+        <span class="sub">A store timer, over ten years</span>
+        <span class="amount">$150–300<span style="font-size:.42em;letter-spacing:0;color:var(--ink-faint)"> + whatever comes later</span></span>
+        <ul>
+          <li><span>01</span><span>Hardware you own, running software you rent</span></li>
+          <li><span>02</span><span>Features that came in the box, later moved to a plan</span></li>
+          <li><span>03</span><span>A retirement announcement you do not get a vote on</span></li>
+          <li><span>04</span><span>A server somewhere that has to stay alive for your grass</span></li>
+        </ul>
+      </div>
+      <div class="mine">
+        <span class="sub">Maali, eight zones, ordered once</span>
+        <span class="amount">~$307</span>
+        <ul>
+          <li><span>01</span><span>Ordinary electrical-cabinet parts, every one replaceable</span></li>
+          <li><span>02</span><span>Not one part needs soldering, ever</span></li>
+          <li><span>03</span><span>Zero dollars a year, forever, because there is nobody to pay</span></li>
+          <li><span>04</span><span>Eight more zones costs one more relay board</span></li>
+        </ul>
+        <div class="bom">
+          <table>
+            <thead><tr><th>Line</th><th>Part</th><th class="num">USD</th></tr></thead>
+            <tbody>
+              <tr><td>01</td><td>24VAC transformer, Class 2, plug-in</td><td class="num">20</td></tr>
+              <tr><td>02</td><td>12V DIN supply</td><td class="num">12</td></tr>
+              <tr><td>—</td><td>ESP32-S3 controller, 8-ch Modbus relay board, enclosure, terminals</td><td class="num">213</td></tr>
+              <tr><td>17</td><td>Surge protection, three-point, DIN modules</td><td class="num">42</td></tr>
+              <tr><td>20</td><td>Modbus pulse counter for the flow sensor</td><td class="num">20</td></tr>
+              <tr class="total"><td></td><td>Order-now total</td><td class="num">307</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-size:13.5px;color:var(--ink-faint);line-height:1.5">The surge protection costs $42 instead of $12 because the cheap kind needs soldering, and nothing in this build is allowed to. It is also the part that decides whether your controller shrugs off a lightning-season jolt arriving on 200 feet of buried valve wire. Worth every penny of the thirty.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUILD ============ -->
+<section id="build" class="rule-top">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Build it</span>
+      <h2>It takes an afternoon, a screwdriver, and the wires already in your wall.</h2>
+    </div>
+    <div class="prose measure" style="margin-left:0">
+      <p>If you have ever swapped a light fixture or built a computer, you can do this with a cup of tea beside you. Everything lands on screw terminals. The house current never enters the cabinet at all: the transformer is a plug-in brick, on purpose, so the scariest wire you will touch carries 24 volts.</p>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="idx">01</span>
+        <div class="body"><h3>Order the parts</h3><p>One list, supplier links, a spare source for every line, and a short note on the three choices that change the price.</p></div>
+        <span class="time">~30 min</span>
+      </div>
+      <div class="step">
+        <span class="idx">02</span>
+        <div class="body"><h3>Clip it to the rail</h3><p>Power supply, controller, relay board, surge modules, terminals. Everything clips onto one metal rail, and everything can later clip off again. No part is trapped.</p></div>
+        <span class="time">~1 hr</span>
+      </div>
+      <div class="step">
+        <span class="idx">03</span>
+        <div class="body"><h3>Move the valve wires across</h3><p>Pull the labelled wires off the old timer and land them on the new terminals. One common, one per bed. The old box comes off the wall last, once you are sure.</p></div>
+        <span class="time">~1 hr</span>
+      </div>
+      <div class="step">
+        <span class="idx">04</span>
+        <div class="body"><h3>Walk through setup</h3><p>Your town, your soil, then bed by bed. <strong>Each bed runs for thirty seconds while you name it</strong>, so you see your own sprinklers pop up as you type. A swapped pair of wires shows itself at the one moment it is cheap to fix.</p></div>
+        <span class="time">~45 min</span>
+      </div>
+      <div class="step">
+        <span class="idx">05</span>
+        <div class="body"><h3>Stop thinking about it</h3><p>Set your district's watering days once and go live your life. It waters, it explains, it emails nobody. If anything ever goes wrong, it tells you which rule said no and why.</p></div>
+        <span class="time">the rest</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATUS ============ -->
+<section id="status" class="rule-top">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Where this actually is</span>
+      <h2>It is on a bench, not yet in a yard. Here is the whole truth.</h2>
+    </div>
+    <div class="prose measure" style="margin-left:0">
+      <p>You are going to build this with your own hands, so you deserve the honest state of it rather than a launch page. <strong>The firmware is finished, and the safety promises have now been proven with real wires on a real bench.</strong> But it has not yet watered a real yard through a whole season, and this page will keep saying so until it has.</p>
+    </div>
+
+    <div class="panel board">
+      <div class="panel-head">
+        <span class="tag"><span class="dot">●</span> Project status</span>
+        <span class="right">firmware v0.2.1 &middot; updated 1 Sep 2026</span>
+      </div>
+      <div class="kpis">
+        <div class="kpi"><span class="kpi-n">22</span><span class="kpi-l">components</span></div>
+        <div class="kpi"><span class="kpi-n">762</span><span class="kpi-l">test cases</span></div>
+        <div class="kpi"><span class="kpi-n">100%</span><span class="kpi-l">branch coverage, 21 gated</span></div>
+        <div class="kpi"><span class="kpi-n">640</span><span class="kpi-l">zone types &times; 4 real years</span></div>
+      </div>
+      <div class="rows">
+        <div class="row">
+          <span class="id">Layer 0</span>
+          <span class="txt">The wires were pulled mid-run on the bench. The contact opened on schedule, at 1.1% timer tolerance.</span>
+          <span class="state paid">Proven 29 Aug</span>
+        </div>
+        <div class="row">
+          <span class="id">Power loss</span>
+          <span class="txt">Power cut mid-energize. The contact opened instantly and stayed open when power came back.</span>
+          <span class="state paid">Proven 29 Aug</span>
+        </div>
+        <div class="row">
+          <span class="id">Updates</span>
+          <span class="txt">A signed release downloaded, verified and installed by the device itself, then booted and self-validated.</span>
+          <span class="state paid">Proven 1 Sep</span>
+        </div>
+        <div class="row">
+          <span class="id">Rollback</span>
+          <span class="txt">A deliberately broken build installed itself, failed at boot, and the bootloader rolled back unaided.</span>
+          <span class="state paid">Proven 1 Sep</span>
+        </div>
+        <div class="row">
+          <span class="id">The model</span>
+          <span class="txt">Every mix of climate, soil, plant and sprinkler replayed against four years of real California weather, through the 2022 drought and the 2023 atmospheric rivers, checking that no bed is ever drowned, starved, or asked for a run past its cap.</span>
+          <span class="state paid">Green</span>
+        </div>
+        <div class="row">
+          <span class="id">RS-485</span>
+          <span class="txt">One wire-timing question still wants an oscilloscope on it rather than a datasheet and a hunch.</span>
+          <span class="state open">Open</span>
+        </div>
+        <div class="row">
+          <span class="id">Docs</span>
+          <span class="txt">The build guide, the wiring pictures, and a friendly first-day walkthrough. Honestly, the longest remaining chore.</span>
+          <span class="state open">In progress</span>
+        </div>
+        <div class="row">
+          <span class="id">A season</span>
+          <span class="txt">A whole season on a real yard with not one drop running longer than asked. That one cannot be earned on a bench, only outdoors.</span>
+          <span class="state open">Not yet</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="tag">What this is not</span>
+      <p>This is not a product. Nothing here is for sale, and nobody owes you a warranty or a help desk. If you build one, it is yours: the water, the wins, and the whoopsies. If you have read this far, we suspect that is exactly how you like it.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="about">
+        <div class="name">maali</div>
+        <p><span class="mono" style="font-size:13px">माली</span> means gardener. The one who knows every bed by name, shows up before being asked, and reports to no head office.</p>
+      </div>
+      <div>
+        <h4>Read</h4>
+        <ul>
+          <li><a href="#">Product requirements</a></li>
+          <li><a href="#">Hardware design</a></li>
+          <li><a href="#">Bill of materials</a></li>
+          <li><a href="#">Decision log</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Build</h4>
+        <ul>
+          <li><a href="#">Build guide <span class="mono" style="font-size:11px;color:var(--ink-faint)">soon</span></a></li>
+          <li><a href="#">Wiring diagrams <span class="mono" style="font-size:11px;color:var(--ink-faint)">soon</span></a></li>
+          <li><a href="https://github.com/achalp/maali-releases">Releases and firmware</a></li>
+          <li><a href="#">Source repository <span class="mono" style="font-size:11px;color:var(--ink-faint)">going public soon</span></a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>maali.garden</span>
+      <span>updates.getmaali.com</span>
+      <span>Open source. Local first. Yours.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  /* ---- Real output, not an illustration.  Sacramento, 5-25 July 2024:
+     ERA5 daily reference ET from test/sim/ca_weather_real.c, replayed through
+     the water_balance and schedule_engine components.  Cool-season lawn,
+     spray heads, loam.  d=date t=tmax(F) e=ETo b=deficit after the run
+     a=deficit after ET (micro-inches) r=runtime(s) ---- */
+  var DAYS = [
+  {d:"Jul 5",t:113,e:307000,a:829073,b:541,r:2868},
+  {d:"Jul 6",t:114,e:317000,a:279501,b:279501,r:0},
+  {d:"Jul 7",t:110,e:335000,a:574301,b:574301,r:0},
+  {d:"Jul 8",t:103,e:313000,a:849741,b:409,r:2940},
+  {d:"Jul 9",t:101,e:288000,a:253849,b:253849,r:0},
+  {d:"Jul 10",t:109,e:279000,a:499369,b:499369,r:0},
+  {d:"Jul 11",t:113,e:293000,a:757209,b:321,r:2620},
+  {d:"Jul 12",t:114,e:330000,a:290721,b:290721,r:0},
+  {d:"Jul 13",t:104,e:301000,a:555601,b:555601,r:0},
+  {d:"Jul 14",t:103,e:278000,a:800241,b:597,r:2768},
+  {d:"Jul 15",t:96,e:292000,a:257557,b:257557,r:0},
+  {d:"Jul 16",t:90,e:296000,a:518037,b:518037,r:0},
+  {d:"Jul 17",t:97,e:252000,a:739797,b:245,r:2560},
+  {d:"Jul 18",t:104,e:280000,a:246645,b:246645,r:0},
+  {d:"Jul 19",t:110,e:295000,a:506245,b:506245,r:0},
+  {d:"Jul 20",t:107,e:329000,a:795765,b:745,r:2752},
+  {d:"Jul 21",t:96,e:284000,a:250665,b:250665,r:0},
+  {d:"Jul 22",t:107,e:281000,a:497945,b:497945,r:0},
+  {d:"Jul 23",t:109,e:334000,a:791865,b:313,r:2740},
+  {d:"Jul 24",t:106,e:343000,a:302153,b:302153,r:0},
+  {d:"Jul 25",t:103,e:351000,a:611033,b:35,r:2115}
+  ];
+  var MAD = 600000, RES = 1200000;   /* the zone's derived MAD and reservoir */
+
+  /* The polyline is the ledger verbatim: ET pushes the deficit up across the
+     day, a run drops it back.  Nothing here is smoothed or invented. */
+  var pts = [];
+  for(var i=0;i<DAYS.length;i++){
+    pts.push({x:i, y:DAYS[i].a, run:false});
+    if(DAYS[i].r>0) pts.push({x:i+0.001, y:DAYS[i].b, run:true});
+  }
+
+  var cv = document.getElementById("ledger-canvas");
+  var ctx = cv.getContext("2d");
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var progress = reduce ? 1 : 0;
+  var css = getComputedStyle(document.documentElement);
+  function tok(n){ return css.getPropertyValue(n).trim(); }
+
+  function draw(){
+    var dpr = Math.min(window.devicePixelRatio||1, 2);
+    var w = cv.clientWidth, h = cv.clientHeight;
+    cv.width = w*dpr; cv.height = h*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,w,h);
+
+    var padL = 46, padR = 16, padT = 16, padB = 26;
+    var iw = w-padL-padR, ih = h-padT-padB;
+    var X = function(x){ return padL + (x/(DAYS.length-1))*iw; };
+    var Y = function(y){ return padT + (y/RES)*ih; };
+
+    /* hairline grid — one line per inch-quarter */
+    ctx.strokeStyle = tok("--grid"); ctx.lineWidth = 1;
+    ctx.font = '10px "IBM Plex Mono", monospace';
+    ctx.fillStyle = tok("--ink-faint");
+    ctx.textAlign = "right"; ctx.textBaseline = "middle";
+    for(var g=0; g<=RES; g+=300000){
+      var gy = Math.round(Y(g))+0.5;
+      ctx.beginPath(); ctx.moveTo(padL, gy); ctx.lineTo(w-padR, gy); ctx.stroke();
+      ctx.fillText((g/1e6).toFixed(2)+'"', padL-10, gy);
+    }
+
+    /* clip everything data-bearing to the animation frontier */
+    var cutX = padL + progress*iw;
+    ctx.save();
+    ctx.beginPath(); ctx.rect(0,0,cutX,h); ctx.clip();
+
+    /* filled area under the deficit curve */
+    ctx.beginPath();
+    ctx.moveTo(X(pts[0].x), Y(0));
+    for(var p=0;p<pts.length;p++) ctx.lineTo(X(pts[p].x), Y(pts[p].y));
+    ctx.lineTo(X(pts[pts.length-1].x), Y(0));
+    ctx.closePath();
+    ctx.fillStyle = tok("--water-fill"); ctx.fill();
+
+    /* the line itself */
+    ctx.beginPath();
+    ctx.moveTo(X(pts[0].x), Y(pts[0].y));
+    for(var q=1;q<pts.length;q++) ctx.lineTo(X(pts[q].x), Y(pts[q].y));
+    ctx.strokeStyle = tok("--water"); ctx.lineWidth = 1.8;
+    ctx.lineJoin = "round"; ctx.stroke();
+
+    /* run markers — a tick at each drop */
+    for(var r=0;r<pts.length;r++){
+      if(!pts[r].run) continue;
+      var rx = Math.round(X(pts[r].x))+0.5;
+      ctx.beginPath(); ctx.moveTo(rx, Y(pts[r].y)); ctx.lineTo(rx, Y(pts[r].y)-9);
+      ctx.strokeStyle = tok("--water"); ctx.lineWidth = 2; ctx.stroke();
+    }
+    ctx.restore();
+
+    /* trigger threshold, drawn over everything */
+    var my = Math.round(Y(MAD))+0.5;
+    ctx.save();
+    ctx.setLineDash([5,4]);
+    ctx.beginPath(); ctx.moveTo(padL, my); ctx.lineTo(w-padR, my);
+    ctx.strokeStyle = tok("--copper"); ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.restore();
+
+    /* x labels: first, middle, last */
+    ctx.fillStyle = tok("--ink-faint");
+    ctx.textBaseline = "top";
+    ctx.textAlign = "left";   ctx.fillText(DAYS[0].d + "  \u00b7  " + DAYS[0].t + "\u00b0F", padL, h-padB+8);
+    ctx.textAlign = "center"; ctx.fillText(DAYS[10].d, X(10), h-padB+8);
+    ctx.textAlign = "right";  ctx.fillText(DAYS[DAYS.length-1].d + "  \u00b7  " + DAYS[DAYS.length-1].t + "\u00b0F", w-padR, h-padB+8);
+
+    /* the live endpoint */
+    if(progress > 0.985){
+      var last = pts[pts.length-1];
+      ctx.beginPath(); ctx.arc(X(last.x), Y(last.y), 3.6, 0, Math.PI*2);
+      ctx.fillStyle = tok("--water"); ctx.fill();
+      ctx.beginPath(); ctx.arc(X(last.x), Y(last.y), 7.5, 0, Math.PI*2);
+      ctx.strokeStyle = tok("--water"); ctx.globalAlpha = .35; ctx.lineWidth = 1.4; ctx.stroke();
+      ctx.globalAlpha = 1;
+    }
+  }
+
+  /* ---- the verdict, typed out once the chart has caught up ---- */
+  var LINE_A = "Back lawn, 6:00am, 35 minutes.";
+  var LINE_B = " It reached 114\u00b0F in this stretch, and there has been no rain worth counting since May 4.";
+  var out = document.getElementById("verdict");
+  function render(n){
+    var a = LINE_A.slice(0, Math.min(n, LINE_A.length));
+    var b = n > LINE_A.length ? LINE_B.slice(0, n-LINE_A.length) : "";
+    out.innerHTML = "<b>" + a + "</b>" + b +
+      (n < LINE_A.length+LINE_B.length ? '<span class="caret"></span>' : "");
+  }
+
+  var started = false;
+  function run(){
+    if(started) return; started = true;
+    if(reduce){ progress = 1; draw(); render(LINE_A.length+LINE_B.length); return; }
+    var t0 = null, DUR = 1500;
+    function frame(t){
+      if(t0===null) t0 = t;
+      var e = (t-t0)/DUR;
+      progress = Math.min(1, e<0 ? 0 : (e>=1 ? 1 : 1-Math.pow(1-e,3)));
+      draw();
+      if(progress < 1){ requestAnimationFrame(frame); }
+      else { type(); }
+    }
+    requestAnimationFrame(frame);
+  }
+  function type(){
+    var total = LINE_A.length+LINE_B.length, n = 0;
+    (function step(){
+      n += 2; render(Math.min(n,total));
+      if(n < total) setTimeout(step, 14);
+    })();
+  }
+
+  draw(); render(0);
+  if("IntersectionObserver" in window){
+    var io = new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){ run(); io.disconnect(); }
+    }, {threshold:.35});
+    io.observe(cv);
+  } else { run(); }
+
+  var rt;
+  window.addEventListener("resize", function(){
+    clearTimeout(rt); rt = setTimeout(function(){ css = getComputedStyle(document.documentElement); draw(); }, 90);
+  });
+  var mq = window.matchMedia("(prefers-color-scheme: dark)");
+  (mq.addEventListener ? mq.addEventListener.bind(mq,"change") : mq.addListener.bind(mq))(function(){
+    css = getComputedStyle(document.documentElement); draw();
+  });
+})();
+</script>
+
+
+</body>
+</html>
