@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Maali</title>
-<meta name="description" content="Maali is an open-source irrigation controller you build and keep. It waters by how thirsty the soil is, works without any cloud, and explains itself in plain sentences.">
+<meta name="description" content="Maali is an irrigation controller that waters by how thirsty the soil actually is, works without any cloud or subscription, and explains itself in plain sentences.">
 <link rel="canonical" href="https://maali.garden/">
 <meta property="og:title" content="Maali">
 <meta property="og:description" content="A watering computer that thinks like a gardener. No cloud, no account, no monthly anything.">
@@ -140,7 +140,8 @@ body{
   font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;
 }
 ::selection{background:var(--lime);color:var(--leaf-deep)}
-img{max-width:100%;display:block}
+img{max-width:100%;height:auto;display:block}
+body{overflow-x:hidden}
 a{color:var(--water-deep);text-underline-offset:3px;text-decoration-color:var(--rule)}
 a:hover{text-decoration-color:var(--water)}
 :focus-visible{outline:2px solid var(--leaf);outline-offset:3px;border-radius:3px}
@@ -290,7 +291,7 @@ section{padding:88px 0}
 /* comparison */
 .compare{display:grid;grid-template-columns:repeat(4,1fr);margin-top:44px;border:1px solid var(--rule);
   border-radius:18px;overflow:hidden;background:var(--paper);box-shadow:var(--shadow-md)}
-.col{padding:22px 20px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:13px}
+.col{padding:22px 20px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:13px;min-width:0}
 .col:last-child{border-right:0}
 .col.mine{background:var(--leaf-wash);position:relative}
 .col.mine::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--leaf),var(--lime))}
@@ -343,7 +344,7 @@ section{padding:88px 0}
 /* money */
 .money{display:grid;grid-template-columns:1fr 1fr;margin-top:44px;border:1px solid var(--rule);
   border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md)}
-.money>div{padding:28px 26px;background:var(--paper);display:flex;flex-direction:column;gap:14px}
+.money>div{padding:28px 26px;background:var(--paper);display:flex;flex-direction:column;gap:14px;min-width:0}
 .money .mine{background:var(--leaf-wash);border-left:1px solid var(--rule-soft)}
 .money .amount{font-family:"Archivo",sans-serif;font-size:clamp(38px,5vw,56px);font-weight:700;letter-spacing:-.035em;line-height:1}
 .money .theirs .amount{color:var(--ink-faint)}
@@ -584,7 +585,7 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
         <ul>
           <li>Smart: it minds your soil, not the calendar</li>
           <li>Local: it decides at home, even with the internet out</li>
-          <li>Open: every line of it yours to read and change</li>
+          <li>Private: your yard, and its data, stay yours</li>
           <li>Kind: it explains itself in plain sentences</li>
         </ul>
       </div>
@@ -693,7 +694,7 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
       <span class="tag"><span class="dot">●</span>&nbsp; What it costs</span>
       <h2>You pay once, for parts, and then you are done paying.</h2>
     </div>
-    <div class="prose"><p class="measure">Nobody sells Maali. There is no company and no box with a barcode. There is a parts list with links, a spare source for every line, and you order it yourself, the way you would for any good weekend project.</p></div>
+    <div class="prose"><p class="measure">The number that matters is the one you never pay again. No subscription, no per-feature tier, no cloud that has to keep running for your grass to get watered. You pay for good hardware once, and after that the only running cost is the water itself.</p></div>
 
     <div class="money">
       <div class="theirs">
@@ -712,7 +713,7 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
         <ul>
           <li><span>01</span><span>Ordinary electrical-cabinet parts, every one replaceable</span></li>
           <li><span>02</span><span>Not one part needs soldering, ever</span></li>
-          <li><span>03</span><span>Zero dollars a year, forever, because there is nobody to pay</span></li>
+          <li><span>03</span><span>No subscription and no per-feature tier, now or later</span></li>
           <li><span>04</span><span>Eight more zones costs one more relay board</span></li>
         </ul>
         <div class="bom">
@@ -806,8 +807,8 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
     </div>
 
     <div class="callout soil">
-      <span class="tag">What this is not</span>
-      <p>This is not a product. Nothing here is for sale, and nobody owes you a warranty or a help desk. If you build one, it is yours: the water, the wins, and the whoopsies. If you have read this far, we suspect that is exactly how you like it.</p>
+      <span class="tag">Straight with you</span>
+      <p>This is early. The firmware is finished and the safety is proven on the bench, but Maali has not yet watered a real yard through a whole season. We would rather tell you that plainly than dress it up, and this page will keep saying so until the season is behind us.</p>
     </div>
   </div>
 </section>
@@ -851,14 +852,14 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
           <li><a href="#build">Build guide <span class="mono" style="font-size:11px;color:var(--ink-faint)">soon</span></a></li>
           <li><a href="#build">Wiring diagrams <span class="mono" style="font-size:11px;color:var(--ink-faint)">soon</span></a></li>
           <li><a href="https://github.com/achalp/maali-releases">Releases and firmware</a></li>
-          <li><a href="#status">Source repository <span class="mono" style="font-size:11px;color:var(--ink-faint)">going public soon</span></a></li>
+          <li><a href="#status">Where the project stands</a></li>
         </ul>
       </div>
     </div>
     <div class="legal">
       <span>maali.garden</span><span class="sep">·</span>
       <span>updates.getmaali.com</span><span class="sep">·</span>
-      <span>Open source. Local first. Yours.</span>
+      <span>Local first. No cloud. Yours.</span>
     </div>
   </div>
 </footer>
