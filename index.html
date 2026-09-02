@@ -203,6 +203,14 @@ p{margin:0}
 .hero-in{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:52px;align-items:center;
   padding:64px 0 88px}
 .hero-copy{display:flex;flex-direction:column;gap:24px}
+.hero-eyebrow{font-family:"Archivo",sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;
+  color:var(--leaf);display:inline-flex;align-items:center;text-transform:uppercase}
+.hero-eyebrow .mono{font-family:"IBM Plex Mono",monospace;text-transform:none;font-size:15px;color:var(--leaf-deep)}
+/* the emotional movement reads bigger and warmer than ordinary prose */
+.feel p{font-size:clamp(18px,1.7vw,20.5px);line-height:1.62;color:var(--ink-soft)}
+.feel .feel-turn{font-family:"Newsreader",Georgia,serif;font-size:clamp(21px,2.4vw,26px);
+  line-height:1.4;color:var(--leaf-deep);font-weight:500;margin:6px 0}
+.feel em{font-style:italic;color:var(--water-deep)}
 .hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:700;line-height:.98;letter-spacing:-.035em;
   margin:0;text-wrap:balance;max-width:15ch;color:var(--leaf-deep)}
 .hero h1 em{font-style:normal;color:var(--water);position:relative;white-space:nowrap}
@@ -452,19 +460,20 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 <section class="hero">
   <div class="wrap hero-in">
     <div class="hero-copy">
-      <h1>Your yard deserves a gardener, not <em>an alarm clock.</em></h1>
-      <p class="hero-lede">Maali is a small watering computer you build once and keep forever. It lives beside your valves, watches your weather, and waters each bed only when the soil is truly getting thirsty. Then it tells you what it did, in plain words.</p>
+      <span class="hero-eyebrow"><span class="mono">माली</span>&nbsp;&middot;&nbsp; the gardener</span>
+      <h1>Hand your garden to someone who <em>truly knows it.</em></h1>
+      <p class="hero-lede">Imagine a gardener who knows your soil by heart, reads the sky each morning, and gives every bed exactly the drink it needs. Who is there before you wake, and asks for nothing. You walk out to something green and thriving, and you never once had to think about it.</p>
       <div class="hero-actions">
-        <a href="#build" class="btn btn-primary">Build one this weekend
+        <a href="#see" class="btn btn-primary">See a day with Maali
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#see" class="btn btn-ghost">See it work</a>
+        <a href="#why" class="btn btn-ghost">Why it feels different</a>
       </div>
       <div class="hero-meta">
-        <span class="pill"><svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M8 1v14M1 8h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>Nothing phones home</span>
-        <span class="pill">No monthly anything</span>
-        <span class="pill">No account to make</span>
-        <span class="pill">About $307 in parts</span>
+        <span class="pill">Never sends you a bill</span>
+        <span class="pill">Never asks you to log in</span>
+        <span class="pill">Never leaves your home</span>
+        <span class="pill">Yours, once and for good</span>
       </div>
     </div>
 
@@ -479,14 +488,31 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
   </div>
 </section>
 
+<!-- ============ THE FEELING ============ -->
+<section id="why">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag"><span class="dot">●</span>&nbsp; You know the feeling</span>
+      <h2>You wanted a garden. Not a second job.</h2>
+    </div>
+    <div class="prose feel measure">
+      <p>You know the small defeats. The sprinklers running full tilt in the middle of a downpour. The corner by the gate that always goes crisp by July. The August water bill that makes you wince. The <em>smart</em> box that wanted an account, an app, and a monthly fee, all so you could turn on a hose.</p>
+      <p class="feel-turn">None of that is gardening. That is being a timer's assistant.</p>
+      <p>What you actually wanted is older and simpler than any of it. Someone who knows your patch of ground. Who sees the soil is still dark from Tuesday's rain and lets it rest. Who gives the thirsty bed a long, slow drink and the shady one just a sip. Who shows up before you are awake, and asks for nothing in return.</p>
+      <p>That is what <span class="mono" style="font-size:16px">माली</span> means. Gardener. And it is the whole of the idea: to hand your garden to someone who tends it the way you would, if you had the time, the knowledge, and forty years of doing it well.</p>
+      <p class="feel-turn">Then you get on with your life. The garden grows greener. The bill grows smaller. And the watering, for the first time, is simply no longer yours to carry.</p>
+    </div>
+  </div>
+</section>
+
 <!-- ============ THE LEDGER (proof) ============ -->
 <section id="proof">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag"><span class="dot">●</span>&nbsp; The idea, in one chart</span>
-      <h2>It keeps a running ledger of the water in your soil.</h2>
+      <span class="tag"><span class="dot">●</span>&nbsp; And it really works</span>
+      <h2>This is that gardener, thinking.</h2>
     </div>
-    <div class="prose"><p class="measure">Here is a real, brutal stretch of Sacramento weather, watered by the very code that opens the valve. Watch the deficit climb as the sun pulls water out, and drop each time Maali decides a bed has earned a drink. No calendar. Just the soil.</p></div>
+    <div class="prose"><p class="measure">A feeling is easy to promise, so here is the receipt. This is a real, brutal stretch of Sacramento weather, watered by the very code that opens your valve. Watch it let the soil dry, wait through the cool days, then decide a bed has earned a long drink. No calendar. Just attention, the way a gardener pays it.</p></div>
 
     <div class="ledger-card">
       <div class="ledger-head">
