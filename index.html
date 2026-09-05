@@ -432,9 +432,662 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 @media (max-width:760px){.foot{grid-template-columns:1fr;gap:28px}}
 
 </style>
+
+<style>
+
+/* ============================================================
+   Maali — a sunlit almanac.  Light by design: warm cream ground,
+   living greens, water as the accent.  One committed look.
+   ============================================================ */
+:root{
+  /* grounds: warm, sunlit, paper */
+  --sky:#EAF3E6;         /* pale meadow wash */
+  --ground:#FBFAF2;      /* warm cream page */
+  --paper:#FFFFFF;       /* cards */
+  --paper-warm:#F6F4E7;  /* recessed warm panel */
+
+  /* greens: the star */
+  --leaf:#3E7C3A;        /* primary leaf green */
+  --leaf-deep:#274D22;   /* deep foliage, for ink accents */
+  --lime:#7FB846;        /* fresh new-growth highlight */
+  --leaf-fill:rgba(62,124,58,.10);
+  --leaf-wash:#EEF5E7;
+
+  /* water: the supporting accent */
+  --water:#1F87A6;
+  --water-deep:#16657E;
+  --water-fill:rgba(31,135,166,.12);
+
+  /* warmth: sun + soil, used sparingly */
+  --sun:#E7A128;
+  --soil:#B4652A;
+  --soil-fill:rgba(180,101,42,.10);
+  --bloom:#D85C74;       /* one flower pop */
+
+  /* ink */
+  --ink:#20301C;
+  --ink-soft:#4E5E45;
+  --ink-faint:#7C8A72;
+
+  /* structure */
+  --rule:#DBE3CF;
+  --rule-soft:#E8EEDD;
+  --shadow-sm:0 1px 2px rgba(39,77,34,.06), 0 1px 0 rgba(39,77,34,.03);
+  --shadow-md:0 6px 22px rgba(39,77,34,.10), 0 2px 6px rgba(39,77,34,.06);
+  --shadow-lg:0 20px 60px rgba(39,77,34,.16), 0 6px 18px rgba(39,77,34,.08);
+  --grid:rgba(39,77,34,.07);
+  --copper:#B4652A;  /* alias for the ledger canvas trigger line */
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:"Newsreader",Georgia,"Times New Roman",serif;
+  font-size:18px;line-height:1.62;-webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--lime);color:var(--leaf-deep)}
+img{max-width:100%;height:auto;display:block}
+body{overflow-x:hidden}
+a{color:var(--water-deep);text-underline-offset:3px;text-decoration-color:var(--rule)}
+a:hover{text-decoration-color:var(--water)}
+:focus-visible{outline:2px solid var(--leaf);outline-offset:3px;border-radius:3px}
+
+.wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+.measure{max-width:60ch}
+
+h1,h2,h3,.ui,.tag,.pill,.btn,.kpi-l,.who,.n,.step .idx,.step .time,table,.mono{
+  font-family:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.mono,.kpi-n,table,.prov .mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace}
+
+h2{font-size:clamp(29px,4vw,44px);font-weight:700;line-height:1.08;letter-spacing:-.024em;margin:0;text-wrap:balance;color:var(--leaf-deep)}
+h3{font-size:19px;font-weight:600;letter-spacing:-.01em;margin:0;line-height:1.3}
+p{margin:0}
+
+.tag{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--leaf)}
+.tag .dot{color:var(--lime)}
+
+/* ---------- top bar ---------- */
+.bar{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--rule);
+  background:color-mix(in srgb,var(--ground) 86%,transparent);backdrop-filter:blur(12px) saturate(1.2)}
+.bar-in{display:flex;align-items:center;gap:22px;height:62px}
+.brand{font-family:"Archivo",sans-serif;font-weight:700;letter-spacing:-.02em;font-size:19px;
+  display:flex;align-items:center;gap:9px;color:var(--leaf-deep)}
+.brand svg{display:block}
+.bar nav{margin-left:auto;display:flex;gap:24px;align-items:center}
+.bar nav a{font-family:"Archivo",sans-serif;font-size:14px;font-weight:500;color:var(--ink-soft);text-decoration:none}
+.bar nav a:hover{color:var(--leaf)}
+.bar .cta{
+  font-weight:600;color:var(--paper);background:var(--leaf);border-radius:999px;
+  padding:8px 16px;box-shadow:var(--shadow-sm);transition:transform .12s ease,background .15s ease;
+}
+.bar .cta:hover{background:var(--leaf-deep);color:var(--paper);transform:translateY(-1px)}
+@media (max-width:820px){.bar nav a.hide-sm{display:none}}
+
+.btn{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:600;
+  border-radius:999px;padding:12px 22px;text-decoration:none;cursor:pointer;
+  transition:transform .12s ease,box-shadow .15s ease,background .15s ease;border:0}
+.btn-primary{background:var(--leaf);color:var(--paper);box-shadow:var(--shadow-md)}
+.btn-primary:hover{background:var(--leaf-deep);transform:translateY(-2px);box-shadow:var(--shadow-lg)}
+.btn-ghost{background:transparent;color:var(--leaf-deep);border:1.5px solid var(--rule)}
+.btn-ghost:hover{border-color:var(--leaf);background:var(--leaf-wash);transform:translateY(-1px)}
+
+.pill{font-size:12.5px;font-weight:600;letter-spacing:.01em;
+  border:1px solid var(--rule);border-radius:999px;padding:6px 13px;color:var(--ink-soft);
+  background:var(--paper);white-space:nowrap;display:inline-flex;align-items:center;gap:7px}
+.pill svg{color:var(--leaf)}
+
+/* ---------- hero ---------- */
+.hero{position:relative;overflow:hidden;
+  background:
+    radial-gradient(120% 90% at 82% -10%, rgba(127,184,70,.20), transparent 55%),
+    radial-gradient(90% 70% at 8% 0%, rgba(31,135,166,.10), transparent 50%),
+    linear-gradient(180deg, var(--sky) 0%, var(--ground) 62%);
+}
+.hero::after{content:"";z-index:0;position:absolute;left:0;right:0;bottom:-1px;height:120px;pointer-events:none;
+  background:linear-gradient(180deg, transparent, var(--ground));}
+.hero-in{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr .95fr;gap:56px;align-items:center;
+  padding:76px 28px 172px;min-height:min(88vh,760px)}
+.hero-copy{display:flex;flex-direction:column;gap:24px}
+.hero-eyebrow{font-family:"Archivo",sans-serif;font-size:13px;font-weight:600;letter-spacing:.06em;
+  color:var(--leaf);display:inline-flex;align-items:center;text-transform:uppercase}
+.hero-eyebrow .mono{font-family:"IBM Plex Mono",monospace;text-transform:none;font-size:15px;color:var(--leaf-deep)}
+/* the emotional movement reads bigger and warmer than ordinary prose */
+.feel p{font-size:clamp(18px,1.7vw,20.5px);line-height:1.62;color:var(--ink-soft)}
+.feel .feel-turn{font-family:"Newsreader",Georgia,serif;font-size:clamp(21px,2.4vw,26px);
+  line-height:1.4;color:var(--leaf-deep);font-weight:500;margin:6px 0}
+.feel em{font-style:italic;color:var(--water-deep)}
+.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:700;line-height:.98;letter-spacing:-.035em;
+  margin:0;text-wrap:balance;max-width:15ch;color:var(--leaf-deep)}
+.hero h1 em{font-style:normal;color:var(--water);position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:.14em;
+  background:var(--water);opacity:.22;border-radius:3px}
+.hero-lede{font-size:clamp(18px,2vw,21px);line-height:1.55;color:var(--ink-soft);max-width:46ch}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-top:2px}
+.hero-actions .note{font-size:14px;color:var(--ink-faint)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:9px;margin-top:6px}
+
+/* device frame around the live shot */
+.device{position:relative;justify-self:center;width:100%;max-width:448px;will-change:transform}
+.device .glow{position:absolute;inset:-8% -8% -14% -8%;z-index:0;border-radius:40px;
+  background:radial-gradient(60% 55% at 50% 30%, rgba(127,184,70,.35), transparent 70%);filter:blur(14px)}
+.phone{position:relative;z-index:1;background:var(--paper);border-radius:30px;padding:12px;
+  box-shadow:var(--shadow-lg);border:1px solid var(--rule)}
+.phone::before{content:"";position:absolute;top:20px;left:50%;transform:translateX(-50%);
+  width:46px;height:5px;border-radius:3px;background:var(--rule);z-index:3}
+.phone img{border-radius:20px;width:100%;box-shadow:0 1px 0 var(--rule-soft)}
+.device .float{position:absolute;z-index:4;background:var(--paper);border-radius:14px;
+  box-shadow:var(--shadow-md);border:1px solid var(--rule);padding:11px 15px;
+  display:flex;align-items:center;gap:11px;font-family:"Archivo",sans-serif}
+.device .float .dot{width:9px;height:9px;border-radius:50%;background:var(--lime);flex:0 0 auto;
+  box-shadow:0 0 0 4px rgba(127,184,70,.22)}
+.device .float b{font-size:14px;color:var(--leaf-deep);font-weight:700;display:block;line-height:1.25}
+.device .float span{font-size:12px;color:var(--ink-faint)}
+.device .f-water{left:-26px;bottom:66px}
+.device .f-cloud{right:-22px;top:56px}
+@media (max-width:900px){
+  .hero-in{grid-template-columns:1fr;gap:40px;padding:44px 28px 104px;min-height:0}
+  .device{max-width:360px;margin-top:6px}
+  .device .f-water{left:-10px}.device .f-cloud{right:-8px}
+}
+@media (max-width:420px){.device .float{display:none}}
+
+/* ---------- sections ---------- */
+section{padding:88px 0}
+.band{background:var(--leaf-wash)}
+.band-water{background:linear-gradient(180deg,var(--ground),#EAF2F4)}
+.sec-head{display:flex;flex-direction:column;gap:14px;max-width:62ch}
+.prose{display:flex;flex-direction:column;gap:19px;margin-top:24px}
+.prose p{color:var(--ink-soft)}
+.prose p strong{color:var(--ink);font-weight:600}
+.prose .measure{max-width:62ch}
+
+/* ledger card */
+.ledger-card{margin-top:40px;background:var(--paper);border:1px solid var(--rule);border-radius:20px;
+  box-shadow:var(--shadow-md);overflow:hidden}
+.ledger-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:16px 20px;
+  border-bottom:1px solid var(--rule-soft);background:var(--leaf-wash)}
+.ledger-head .tag{color:var(--leaf)}
+.ledger-head .right{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+.ledger-body{padding:16px 10px 4px}
+#ledger-canvas{display:block;width:100%;height:240px}
+.ledger-legend{display:flex;gap:20px;flex-wrap:wrap;padding:12px 20px;border-top:1px solid var(--rule-soft);
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em}
+.ledger-legend span{display:flex;align-items:center;gap:7px}
+.swatch{width:16px;height:3px;border-radius:2px;background:var(--water)}
+.swatch.dash{background:transparent;border-top:2px dashed var(--soil)}
+.swatch.tick{width:3px;height:12px;background:var(--water)}
+.verdict{padding:18px 20px;border-top:1px solid var(--rule-soft);display:flex;gap:16px;align-items:flex-start;background:var(--paper)}
+.verdict-key{flex:0 0 auto}
+.verdict-txt{font-size:18px;line-height:1.5;min-height:3.1em;color:var(--ink)}
+.verdict-txt b{font-weight:600;font-family:"IBM Plex Mono",monospace;font-size:15.5px;color:var(--water-deep);letter-spacing:-.01em}
+.caret{display:inline-block;width:8px;height:1.05em;vertical-align:-3px;background:var(--water);opacity:.85;animation:blink 1.05s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.caret{animation:none;opacity:0}}
+.prov{padding:14px 20px;border-top:1px solid var(--rule-soft);background:var(--paper-warm);
+  font-size:13.5px;line-height:1.55;color:var(--ink-faint)}
+.prov .mono{font-size:12px;color:var(--ink-soft)}
+
+/* screenshot showcase */
+.shots{display:grid;grid-template-columns:1.25fr 1fr;gap:26px;margin-top:44px;align-items:start}
+.shot{background:var(--paper);border:1px solid var(--rule);border-radius:18px;overflow:hidden;
+  box-shadow:var(--shadow-md);display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .18s ease}
+.shot:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.shot .cap{padding:15px 18px;display:flex;flex-direction:column;gap:3px;border-bottom:1px solid var(--rule-soft)}
+.shot .cap b{font-family:"Archivo",sans-serif;font-size:15px;font-weight:600;color:var(--leaf-deep)}
+.shot .cap span{font-size:13.5px;color:var(--ink-faint)}
+.shot .frame{padding:16px 16px 0;background:var(--leaf-wash);flex:1;display:flex;align-items:flex-end;justify-content:center}
+.shot .frame img{border-radius:12px 12px 0 0;box-shadow:0 -1px 0 var(--rule),0 8px 20px rgba(39,77,34,.10);width:100%}
+.shot.wide{grid-column:1}
+.shots .col-right{display:flex;flex-direction:column;gap:26px}
+@media (max-width:820px){.shots{grid-template-columns:1fr}}
+
+/* A Day with Maali: point, headline, prose, illustration -- flowing, alternating */
+.usp{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;margin-top:46px}
+.usp + .usp{margin-top:60px}
+.usp-copy{display:flex;flex-direction:column;gap:12px}
+.usp-eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+.usp-copy h3{font-family:"Archivo",sans-serif;font-size:clamp(22px,2.6vw,30px);font-weight:700;letter-spacing:-.022em;color:var(--leaf-deep);line-height:1.14}
+.usp-copy p{font-size:16.5px;line-height:1.55;color:var(--ink-soft);max-width:46ch}
+.usp-q{display:block;font-family:"Newsreader",Georgia,serif;font-style:italic;color:var(--water-deep);quotes:none;margin-top:8px;font-size:17.5px;line-height:1.4}
+.usp-viz{justify-self:center;width:100%;max-width:470px}
+.usp-frame{background:var(--paper);border:1px solid var(--rule);border-radius:18px;padding:14px;box-shadow:var(--shadow-md)}
+.usp-frame img{border-radius:10px;width:100%;box-shadow:0 1px 0 var(--rule-soft),0 8px 22px rgba(39,77,34,.10)}
+.usp.reverse .usp-copy{order:2}
+.usp.reverse .usp-viz{order:1}
+@media (max-width:820px){.usp{grid-template-columns:1fr;gap:22px;margin-top:34px}
+  .usp + .usp{margin-top:40px}
+  .usp.reverse .usp-copy{order:1}.usp.reverse .usp-viz{order:2}
+  .usp-viz{max-width:440px}}
+
+/* comparison */
+.compare{display:grid;grid-template-columns:repeat(4,1fr);margin-top:44px;border:1px solid var(--rule);
+  border-radius:18px;overflow:hidden;background:var(--paper);box-shadow:var(--shadow-md)}
+.col{padding:22px 20px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:13px;min-width:0}
+.col:last-child{border-right:0}
+.col.mine{background:var(--leaf-wash);position:relative}
+.col.mine::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--leaf),var(--lime))}
+.col h3{font-size:16.5px;color:var(--leaf-deep)}
+.col .who{font-size:11px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);font-weight:600}
+.col ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+.col li{font-size:14.5px;line-height:1.45;color:var(--ink-soft);display:flex;gap:9px;align-items:flex-start}
+.col li::before{content:"–";color:var(--ink-faint);flex:0 0 auto;line-height:1.5;font-weight:700}
+.col.mine li::before{content:"✔";color:var(--leaf);font-size:12px;line-height:1.55}
+.col.mine li{color:var(--ink)}
+@media (max-width:880px){.compare{grid-template-columns:1fr 1fr}.col{border-bottom:1px solid var(--rule-soft)}.col:nth-child(2n){border-right:0}}
+@media (max-width:520px){.compare{grid-template-columns:1fr}.col{border-right:0}}
+
+/* the trouble with timers: three trades on the left, the answer on the right */
+.split--wide .split-viz{max-width:520px}
+.opt-lede{font-size:clamp(18px,1.9vw,21px);color:var(--ink-soft);line-height:1.5;max-width:46ch}
+.trades{list-style:none;margin:6px 0 0;padding:0;display:flex;flex-direction:column;gap:18px}
+.trades li{display:flex;flex-direction:column;gap:4px;padding-left:18px;border-left:2px solid var(--rule)}
+.trades b{font-family:"Archivo",sans-serif;font-size:16.5px;font-weight:700;color:var(--ink);line-height:1.25}
+.trades span{font-size:14.5px;color:var(--ink-faint);line-height:1.5}
+.answer-card{background:var(--leaf-wash);border:1px solid var(--rule);border-radius:20px;padding:30px 28px;
+  box-shadow:var(--shadow-md);position:relative;overflow:hidden}
+.answer-card::before{content:"";position:absolute;inset:0 0 auto 0;height:4px;background:linear-gradient(90deg,var(--leaf),var(--lime))}
+.ac-eyebrow{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--leaf)}
+.answer-card h3{font-family:"Archivo",sans-serif;font-size:clamp(24px,3vw,33px);font-weight:700;letter-spacing:-.025em;
+  color:var(--leaf-deep);margin:6px 0 18px;line-height:1.08}
+.answer-card ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:13px}
+.answer-card li{display:flex;gap:11px;align-items:flex-start;font-size:16px;color:var(--ink);line-height:1.4}
+.answer-card li::before{content:"\2714";color:var(--leaf);font-weight:700;flex:0 0 auto;font-size:13px;line-height:1.5}
+
+/* callout */
+.callout{border-left:4px solid var(--lime);background:var(--leaf-fill);border-radius:0 14px 14px 0;
+  padding:20px 24px;margin-top:34px}
+.callout p{font-size:17px;line-height:1.55;color:var(--ink)}
+.callout .tag{margin-bottom:8px;color:var(--leaf)}
+
+/* safety stack */
+.stackdiag{display:flex;flex-direction:column;margin-top:40px;border:1px solid var(--rule);border-radius:18px;
+  overflow:hidden;box-shadow:var(--shadow-md);background:var(--paper)}
+.layer{display:grid;grid-template-columns:128px 1fr 250px;border-bottom:1px solid var(--rule-soft)}
+.layer:last-child{border-bottom:0}
+.layer .lv{padding:20px 18px;border-right:1px solid var(--rule-soft);background:var(--leaf-wash);
+  display:flex;flex-direction:column;gap:5px}
+.layer .lv b{font-family:"Archivo",sans-serif;font-size:26px;color:var(--leaf);font-weight:700;letter-spacing:-.02em;line-height:1}
+.layer .lv span{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.05em;color:var(--ink-faint)}
+.layer.hw .lv{background:var(--soil-fill)}
+.layer.hw .lv b{color:var(--soil)}
+.layer .what{padding:20px;display:flex;flex-direction:column;gap:8px}
+.layer .what h3{color:var(--leaf-deep)}
+.layer .what p{font-size:15px;color:var(--ink-soft);line-height:1.5}
+.layer .survives{padding:20px 18px;border-left:1px solid var(--rule-soft);background:var(--paper-warm);
+  font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-soft);line-height:1.55}
+.layer .survives em{font-style:normal;display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+@media (max-width:820px){.layer{grid-template-columns:1fr}.layer .lv{border-right:0;border-bottom:1px solid var(--rule-soft);flex-direction:row;align-items:baseline;gap:11px}.layer .survives{border-left:0;border-top:1px solid var(--rule-soft)}}
+
+/* own grid */
+.owns{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+.own{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:22px 20px;
+  display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease}
+.own:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.own .ic{width:34px;height:34px;color:var(--leaf)}
+.own .n{font-family:"Archivo",sans-serif;font-size:15px;font-weight:700;color:var(--leaf-deep)}
+.own p{font-size:14px;color:var(--ink-soft);line-height:1.5}
+@media (max-width:900px){.owns{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.owns{grid-template-columns:1fr}}
+
+/* money */
+.money{display:grid;grid-template-columns:1fr 1fr;margin-top:44px;border:1px solid var(--rule);
+  border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md)}
+.money>div{padding:28px 26px;background:var(--paper);display:flex;flex-direction:column;gap:14px;min-width:0}
+.money .mine{background:var(--leaf-wash);border-left:1px solid var(--rule-soft)}
+.money .amount{font-family:"Archivo",sans-serif;font-size:clamp(38px,5vw,56px);font-weight:700;letter-spacing:-.035em;line-height:1}
+.money .theirs .amount{color:var(--ink-faint)}
+.money .mine .amount{color:var(--leaf)}
+.money .sub{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);letter-spacing:.02em}
+.money ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px;font-size:14.5px;color:var(--ink-soft)}
+.money li{display:flex;gap:10px;line-height:1.45}
+.money li span:first-child{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);flex:0 0 auto;padding-top:2px}
+@media (max-width:700px){.money{grid-template-columns:1fr}.money .mine{border-left:0;border-top:1px solid var(--rule-soft)}}
+.bom{margin-top:12px;overflow-x:auto;border:1px solid var(--rule-soft);border-radius:12px}
+table{width:100%;border-collapse:collapse;font-size:13px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 13px;border-bottom:1px solid var(--rule-soft);white-space:nowrap}
+th{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;background:var(--paper-warm)}
+td{color:var(--ink-soft)}
+td.num{text-align:right}
+tr:last-child td{border-bottom:0}
+tr.total td{color:var(--leaf-deep);font-weight:700;border-top:1.5px solid var(--rule)}
+
+/* build steps */
+.steps{display:flex;flex-direction:column;margin-top:40px}
+.step{display:grid;grid-template-columns:64px 1fr 130px;gap:20px;padding:22px 4px;
+  border-bottom:1px solid var(--rule-soft);align-items:baseline}
+.step:last-child{border-bottom:0}
+.step .idx{font-family:"Archivo",sans-serif;font-size:15px;font-weight:700;color:var(--paper);
+  background:var(--leaf);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  box-shadow:var(--shadow-sm)}
+.step .body{display:flex;flex-direction:column;gap:6px}
+.step .body h3{color:var(--leaf-deep)}
+.step .body p{font-size:15px;color:var(--ink-soft);line-height:1.5}
+.step .body strong{color:var(--ink);font-weight:600}
+.step .time{font-family:"IBM Plex Mono",monospace;font-size:12.5px;color:var(--ink-faint);text-align:right}
+@media (max-width:700px){.step{grid-template-columns:40px 1fr;gap:16px}.step .time{grid-column:2;text-align:left}}
+
+/* status board */
+.board{margin-top:40px;background:var(--paper);border:1px solid var(--rule);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-md)}
+.board-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;padding:16px 20px;border-bottom:1px solid var(--rule-soft);background:var(--leaf-wash)}
+.board-head .tag{color:var(--leaf)}
+.board-head .right{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--rule-soft)}
+.kpi{padding:20px 18px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:5px}
+.kpi:last-child{border-right:0}
+.kpi-n{font-family:"IBM Plex Mono",monospace;font-size:28px;font-weight:600;letter-spacing:-.03em;color:var(--leaf);font-variant-numeric:tabular-nums;line-height:1.05}
+.kpi-l{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);font-family:"IBM Plex Mono",monospace}
+@media (max-width:700px){.kpis{grid-template-columns:1fr 1fr}.kpi:nth-child(2n){border-right:0}}
+.rows{display:flex;flex-direction:column}
+.row{display:grid;grid-template-columns:100px 1fr 130px;gap:16px;padding:15px 20px;border-bottom:1px solid var(--rule-soft);align-items:baseline}
+.row:last-child{border-bottom:0}
+.row .id{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+.row .txt{font-size:14.5px;color:var(--ink-soft);line-height:1.45}
+.state{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;display:inline-flex;align-items:center;gap:7px}
+.state::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor;flex:0 0 auto}
+.state.paid{color:var(--leaf)}
+.state.open{color:var(--soil)}
+@media (max-width:700px){.row{grid-template-columns:1fr;gap:5px}}
+.callout.soil{border-left-color:var(--soil);background:var(--soil-fill)}
+.callout.soil .tag{color:var(--soil)}
+
+/* closing band */
+.closing{background:
+  radial-gradient(90% 120% at 50% -20%, rgba(127,184,70,.24), transparent 60%),
+  linear-gradient(180deg, var(--leaf-wash), var(--ground));text-align:center}
+.closing .in{display:flex;flex-direction:column;align-items:center;gap:22px;max-width:44ch;margin:0 auto}
+.closing h2{font-size:clamp(30px,4.4vw,50px)}
+.closing p{color:var(--ink-soft);font-size:19px}
+
+/* footer */
+footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--paper-warm)}
+.foot{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:36px}
+.foot h4{font-family:"Archivo",sans-serif;font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 13px;font-weight:700}
+.foot ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:14.5px}
+.foot a{color:var(--ink-soft);text-decoration:none}
+.foot a:hover{color:var(--leaf)}
+.foot .about p{font-size:14.5px;color:var(--ink-soft);line-height:1.55;max-width:40ch}
+.foot .name{font-family:"Archivo",sans-serif;font-weight:700;font-size:18px;color:var(--leaf-deep);margin-bottom:11px;letter-spacing:-.02em;display:flex;align-items:center;gap:9px}
+.legal{margin-top:40px;padding-top:20px;border-top:1px solid var(--rule-soft);font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);display:flex;gap:18px;flex-wrap:wrap;align-items:center}
+.legal .sep{color:var(--rule)}
+@media (max-width:760px){.foot{grid-template-columns:1fr;gap:28px}}
+
+/* ============================================================
+   VISUAL-FIRST PASSES — dawn hero, the receipt, the plain-English
+   quotes, the failure simulator, the afternoon.
+   ============================================================ */
+
+/* ---------- hero: a dawn, not a screenshot ---------- */
+.hero-scene{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden}
+.hero-sun{position:absolute;right:4%;top:-4%;width:min(54vw,640px);aspect-ratio:1;opacity:.9;
+  transform-origin:center;will-change:transform}
+.hero-ground{position:absolute;left:0;right:0;bottom:0;width:100%;height:210px;opacity:.66;will-change:transform}
+@media (max-width:900px){.hero-ground{height:150px}.hero-sun{right:-6%;top:-8%;width:82vw}}
+
+/* the three beats that happen before you are awake */
+.morning{display:flex;flex-wrap:wrap;align-items:stretch;gap:0;margin-top:4px;
+  background:color-mix(in srgb,var(--paper) 72%,transparent);border:1px solid var(--rule);
+  border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);backdrop-filter:blur(6px);max-width:520px}
+.beat{flex:1 1 0;min-width:132px;padding:13px 15px;display:flex;flex-direction:column;gap:3px;
+  border-right:1px solid var(--rule-soft)}
+.beat:last-child{border-right:0}
+.beat .t{font-family:"IBM Plex Mono",monospace;font-size:11.5px;letter-spacing:.04em;color:var(--water)}
+.beat .w{font-family:"Archivo",sans-serif;font-size:13.5px;font-weight:600;color:var(--leaf-deep);line-height:1.3}
+.beat .s{font-size:12.5px;color:var(--ink-faint);line-height:1.35}
+.beat.done .t{color:var(--leaf)}
+@media (max-width:520px){.beat{flex:1 1 100%;border-right:0;border-bottom:1px solid var(--rule-soft)}.beat:last-child{border-bottom:0}}
+
+/* the promise bar, spanning the hero foot */
+.trustbar{position:relative;z-index:2;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  background:var(--paper)}
+.trustbar .in{display:grid;grid-template-columns:repeat(4,1fr)}
+.tb{padding:20px 8px 20px 0;display:flex;align-items:flex-start;gap:11px}
+.tb + .tb{padding-left:26px;border-left:1px solid var(--rule-soft)}
+.tb svg{flex:0 0 auto;color:var(--leaf);margin-top:1px}
+.tb b{display:block;font-family:"Archivo",sans-serif;font-size:14px;font-weight:700;color:var(--leaf-deep);line-height:1.25}
+.tb span{font-size:12.5px;color:var(--ink-faint);line-height:1.4}
+.tb-short{display:none}
+@media (max-width:640px){
+  /* stay one row of four: icon over a short word, the sentences step aside */
+  .trustbar .in{grid-template-columns:repeat(4,1fr)}
+  .tb{flex-direction:column;align-items:center;text-align:center;gap:7px;padding:16px 6px}
+  .tb + .tb{padding-left:6px;border-left:1px solid var(--rule-soft)}
+  .tb .tb-full{display:none}
+  .tb-short{display:block;font-family:"Archivo",sans-serif;font-size:12px;font-weight:700;
+    color:var(--leaf-deep);line-height:1.2;letter-spacing:-.01em}
+}
+/* the floating chips drift in, then breathe */
+@keyframes chipIn{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.device .float{opacity:0;animation:chipIn .6s cubic-bezier(.2,.8,.3,1) forwards}
+.device .f-water{animation-delay:.45s}
+.device .f-cloud{animation-delay:.75s}
+.device .float .inner{display:flex;align-items:center;gap:11px}
+@media (prefers-reduced-motion:no-preference){
+  .device .f-water .inner{animation:bob 5.5s ease-in-out 1.6s infinite}
+  .device .f-cloud .inner{animation:bob 6.5s ease-in-out 2.1s infinite}
+}
+@media (prefers-reduced-motion:reduce){.device .float{opacity:1;animation:none}}
+
+/* ---------- proof: the numbers, then the ledger, then the days ---------- */
+.kpirow{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:36px;
+  border:1px solid var(--rule);border-radius:18px;overflow:hidden;background:var(--paper);box-shadow:var(--shadow-sm)}
+.kpit{padding:20px 22px;border-right:1px solid var(--rule-soft);display:flex;flex-direction:column;gap:4px}
+.kpit:last-child{border-right:0}
+.kpit .big{font-family:"Archivo",sans-serif;font-size:clamp(26px,3.2vw,36px);font-weight:700;
+  letter-spacing:-.035em;line-height:1;color:var(--leaf);font-variant-numeric:tabular-nums}
+.kpit.heat .big{color:var(--soil)}
+.kpit.wait .big{color:var(--water)}
+.kpit .lab{font-size:13px;line-height:1.4;color:var(--ink-soft)}
+@media (max-width:760px){.kpirow{grid-template-columns:1fr 1fr}
+  .kpit:nth-child(2n){border-right:0}.kpit:nth-child(-n+2){border-bottom:1px solid var(--rule-soft)}}
+
+/* twenty-one days, each one a decision */
+.daystrip{padding:18px 20px 20px;border-top:1px solid var(--rule-soft);background:var(--paper)}
+.daystrip .dhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:12px}
+.daystrip .dhead .hint{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+.days{display:grid;grid-template-columns:repeat(21,1fr);gap:4px}
+.day{position:relative;appearance:none;border:1px solid var(--rule);background:var(--paper-warm);
+  border-radius:6px;height:58px;padding:0;cursor:pointer;overflow:hidden;
+  transition:transform .12s ease,border-color .12s ease}
+.day .fill{position:absolute;left:0;right:0;bottom:0;background:rgba(31,135,166,.26);
+  border-top:2px solid var(--water)}
+.day.ran{border-color:var(--water)}
+.day.ran::after{content:"";position:absolute;left:50%;top:5px;transform:translateX(-50%);
+  width:6px;height:6px;border-radius:50%;background:var(--water);
+  box-shadow:0 0 0 3px rgba(31,135,166,.16)}
+.day:hover,.day:focus-visible{transform:translateY(-2px);border-color:var(--leaf)}
+.day[aria-pressed="true"]{border-color:var(--leaf);box-shadow:0 0 0 2px var(--leaf-fill)}
+.daydetail{margin-top:12px;min-height:3.2em;display:flex;gap:14px;align-items:flex-start;
+  padding:13px 15px;background:var(--paper-warm);border-radius:12px;border:1px solid var(--rule-soft)}
+.daydetail .when{font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint);
+  flex:0 0 auto;min-width:96px;line-height:1.5}
+.daydetail .said{font-size:15.5px;line-height:1.5;color:var(--ink)}
+.daydetail .said b{font-weight:600;color:var(--leaf-deep)}
+.daydetail .said b.ran{color:var(--water-deep)}
+@media (max-width:760px){.days{grid-template-columns:repeat(11,1fr)}.day{height:44px}
+  .daydetail{flex-direction:column;gap:5px}.daydetail .when{min-width:0}}
+
+/* ---------- see it: the app's own sentences ---------- */
+.saidrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+.said-card{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:22px 22px 18px;
+  box-shadow:var(--shadow-sm);display:flex;flex-direction:column;gap:14px;position:relative;overflow:hidden}
+.said-card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;
+  background:linear-gradient(180deg,var(--lime),var(--water))}
+.said-card q{quotes:none;font-family:"Newsreader",Georgia,serif;font-size:clamp(18px,1.9vw,21px);
+  line-height:1.4;color:var(--leaf-deep);font-weight:400}
+.said-card .from{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--ink-faint);margin-top:auto}
+@media (max-width:820px){.saidrow{grid-template-columns:1fr}}
+
+/* ---------- safety: pick a disaster ---------- */
+.failsim{margin-top:40px;border:1px solid var(--rule);border-radius:20px;overflow:hidden;
+  background:var(--paper);box-shadow:var(--shadow-md)}
+.fs-head{padding:18px 20px;border-bottom:1px solid var(--rule-soft);background:var(--leaf-wash);
+  display:flex;flex-direction:column;gap:13px}
+.disasters{display:flex;flex-wrap:wrap;gap:8px}
+.dbtn{font-family:"Archivo",sans-serif;font-size:13.5px;font-weight:600;color:var(--ink-soft);
+  background:var(--paper);border:1px solid var(--rule);border-radius:999px;padding:8px 15px;cursor:pointer;
+  transition:all .14s ease;line-height:1.2}
+.dbtn:hover{border-color:var(--leaf);color:var(--leaf-deep);transform:translateY(-1px)}
+.dbtn[aria-pressed="true"]{background:var(--soil);border-color:var(--soil);color:var(--paper);box-shadow:var(--shadow-sm)}
+.fs-layers{display:flex;flex-direction:column}
+.fl{display:grid;grid-template-columns:118px 1fr 132px;border-bottom:1px solid var(--rule-soft);
+  transition:background .25s ease,opacity .25s ease}
+.fl .lv{padding:18px;border-right:1px solid var(--rule-soft);background:var(--leaf-wash);
+  display:flex;flex-direction:column;gap:4px;transition:background .25s ease}
+.fl .lv b{font-family:"Archivo",sans-serif;font-size:25px;font-weight:700;line-height:1;
+  letter-spacing:-.02em;color:var(--leaf)}
+.fl .lv span{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;color:var(--ink-faint)}
+.fl.hw .lv{background:var(--soil-fill)}
+.fl.hw .lv b{color:var(--soil)}
+.fl .what{padding:18px 20px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.fl .what h3{color:var(--leaf-deep)}
+.fl .what p{font-size:14.5px;line-height:1.5;color:var(--ink-soft)}
+.fl .st{padding:18px;border-left:1px solid var(--rule-soft);display:flex;align-items:flex-start}
+.chip{font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.07em;text-transform:uppercase;
+  border-radius:999px;padding:5px 11px;display:inline-flex;align-items:center;gap:7px;border:1px solid transparent;white-space:nowrap}
+.chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.fl[data-s="catches"]{background:linear-gradient(90deg,rgba(127,184,70,.14),transparent 60%)}
+.fl[data-s="catches"] .chip{color:var(--leaf);border-color:var(--leaf);background:var(--paper)}
+.fl[data-s="holds"] .chip{color:var(--ink-faint);border-color:var(--rule)}
+.fl[data-s="gone"]{opacity:.42}
+.fl[data-s="gone"] .chip{color:var(--soil);border-color:var(--rule)}
+.fl[data-s="gone"] .chip::before{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
+.fs-flow{display:grid;grid-template-columns:118px 1fr 132px;border-bottom:1px solid var(--rule-soft);
+  background:var(--paper-warm);transition:background .25s ease}
+.fs-flow .lv{padding:16px 18px;border-right:1px solid var(--rule-soft);
+  font-family:"IBM Plex Mono",monospace;font-size:11px;letter-spacing:.05em;color:var(--ink-faint);
+  display:flex;align-items:center}
+.fs-flow .what{padding:16px 20px;font-size:14.5px;line-height:1.5;color:var(--ink-soft)}
+.fs-flow .st{padding:16px 18px;border-left:1px solid var(--rule-soft);display:flex;align-items:center}
+.fs-flow[data-s="catches"]{background:linear-gradient(90deg,rgba(127,184,70,.16),var(--paper-warm) 60%)}
+.fs-flow[data-s="catches"] .chip{color:var(--leaf);border-color:var(--leaf);background:var(--paper)}
+.fs-flow[data-s="holds"] .chip{color:var(--ink-faint);border-color:var(--rule)}
+.fs-flow[data-s="gone"]{opacity:.42}
+.fs-flow[data-s="gone"] .chip{color:var(--soil);border-color:var(--rule)}
+.fs-flow[data-s="gone"] .chip::before{background:transparent;box-shadow:inset 0 0 0 1.5px currentColor}
+.fs-verdict{padding:24px 22px;display:flex;gap:18px;align-items:flex-start;background:var(--paper)}
+.fs-verdict .mark{flex:0 0 auto;width:36px;height:36px;border-radius:50%;background:var(--leaf-fill);
+  color:var(--leaf);display:flex;align-items:center;justify-content:center}
+.fs-verdict .txt{display:flex;flex:1;flex-direction:column;gap:7px;min-width:0}
+.fs-verdict .big{font-family:"Archivo",sans-serif;font-size:clamp(21px,2.6vw,28px);font-weight:700;
+  letter-spacing:-.025em;line-height:1.15;color:var(--leaf-deep)}
+.fs-verdict .sub{font-size:15.5px;line-height:1.55;color:var(--ink-soft);max-width:64ch}
+@media (max-width:820px){
+  .fl,.fs-flow{grid-template-columns:1fr}
+  .fl .lv{border-right:0;border-bottom:1px solid var(--rule-soft);flex-direction:row;align-items:baseline;gap:11px}
+  .fl .st,.fs-flow .st{border-left:0;border-top:1px solid var(--rule-soft)}
+  .fs-flow .lv{border-right:0;border-bottom:1px solid var(--rule-soft)}
+}
+
+/* ---------- build: the cabinet, and one afternoon ---------- */
+.cabinet{margin-top:40px;background:var(--paper);border:1px solid var(--rule);border-radius:20px;
+  box-shadow:var(--shadow-md);overflow:hidden}
+.cabinet .chead{padding:16px 20px;border-bottom:1px solid var(--rule-soft);background:var(--paper-warm);
+  display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.cabinet .chead .right{margin-left:auto;font-family:"IBM Plex Mono",monospace;font-size:12px;color:var(--ink-faint)}
+.cabinet .cbody{padding:10px 14px 4px;overflow-x:auto}
+.cabinet svg{display:block;width:100%;min-width:620px;height:auto}
+.cabinet .cfoot{padding:14px 20px;border-top:1px solid var(--rule-soft);background:var(--paper);
+  font-size:13.5px;color:var(--ink-faint);line-height:1.55}
+.cabinet .cfoot strong{color:var(--soil);font-weight:600}
+
+.aftbar{margin-top:40px}
+.aftbar .albl{display:flex;align-items:baseline;gap:12px;margin-bottom:11px;flex-wrap:wrap}
+.aftbar .albl .tag{color:var(--leaf)}
+.aftbar .albl .tot{margin-left:auto;font-family:"Archivo",sans-serif;font-size:15px;font-weight:700;color:var(--leaf-deep)}
+.abar{display:flex;height:42px;border-radius:10px;overflow:hidden;border:1px solid var(--rule);box-shadow:var(--shadow-sm)}
+.abar div{display:flex;align-items:center;justify-content:center;font-family:"IBM Plex Mono",monospace;
+  font-size:11.5px;color:var(--paper);border-right:1px solid rgba(255,255,255,.35);white-space:nowrap;overflow:hidden}
+.abar div:last-child{border-right:0}
+.abar .s1{flex:30;background:var(--lime)}
+.abar .s2{flex:60;background:var(--leaf)}
+.abar .s3{flex:60;background:var(--leaf-deep)}
+.abar .s4{flex:45;background:var(--water)}
+.abar .s5{flex:26;background:var(--paper-warm);color:var(--ink-faint);border-left:1px dashed var(--rule)}
+.aftbar .ascale{display:flex;justify-content:space-between;margin-top:7px;
+  font-family:"IBM Plex Mono",monospace;font-size:11px;color:var(--ink-faint)}
+@media (max-width:640px){.abar{height:34px}.abar div{font-size:0}.abar .s5{font-size:0}}
+
+.step .idx{align-self:start}
+.step .body p .why{display:block;margin-top:5px;font-family:"IBM Plex Mono",monospace;font-size:12px;
+  color:var(--water-deep);letter-spacing:.01em}
+
+
+
+/* ============================================================
+   SCROLL-MORPH HERO + HERO-RATIO SECTION SPLIT (added pass)
+   The dawn becomes morning as you scroll: the sun rises and warms,
+   the hedge recedes, the device drifts. --p is 0 at the top and
+   climbs to 1 as the hero scrolls away, set by a passive listener.
+   ============================================================ */
+.hero{--p:0}
+/* the scene fades and lifts in once on load (first light) */
+@keyframes firstLight{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:no-preference){
+  .hero-scene{animation:firstLight 1.1s cubic-bezier(.2,.8,.3,1) both}
+  /* scroll couples to transforms on the children (no transition -> tracks 1:1) */
+  .hero-sun{transform:translateY(calc(var(--p) * -128px)) scale(calc(1 + var(--p) * .22))}
+  .hero-ground{transform:translateY(calc(var(--p) * 46px))}
+  .device{transform:translateY(calc(var(--p) * -48px))}
+}
+/* a warm morning wash that deepens as the sun climbs */
+.hero-warm{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:calc(var(--p) * .75);
+  background:radial-gradient(80% 62% at 78% 4%, rgba(231,161,40,.26), transparent 60%)}
+@media (prefers-reduced-motion:reduce){.hero-warm{opacity:0}}
+
+/* ---- the hero's balance, brought to a section: text | visual, ~50/50, centred ---- */
+.split{display:grid;grid-template-columns:1.02fr .98fr;gap:52px;align-items:center;margin-top:8px}
+.split .split-copy{display:flex;flex-direction:column;gap:22px}
+.split .split-copy .sec-head{margin:0}
+.split .split-copy .prose{margin-top:0}
+.split .split-viz{justify-self:center;width:100%;max-width:440px}
+@media (max-width:900px){.split{grid-template-columns:1fr;gap:34px}
+  .split .split-viz{max-width:400px;order:2}}
+
+/* the small defeats: the chore, drawn */
+.why-lede{font-size:clamp(18px,1.9vw,21px);line-height:1.5;color:var(--ink-soft);max-width:52ch;margin-top:2px}
+.defeats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:34px}
+.defeat{background:var(--paper);border:1px solid var(--rule);border-radius:16px;padding:20px 18px;
+  display:flex;flex-direction:column;gap:9px;box-shadow:var(--shadow-sm);transition:transform .15s ease,box-shadow .15s ease}
+.defeat:hover{transform:translateY(-3px);box-shadow:var(--shadow-md)}
+.defeat .di{width:30px;height:30px;color:var(--soil)}
+.defeat b{font-family:"Archivo",sans-serif;font-size:15.5px;font-weight:700;color:var(--ink);line-height:1.25}
+.defeat span{font-size:13.5px;color:var(--ink-faint);line-height:1.45}
+.why-turn{margin-top:34px;max-width:60ch}
+@media (max-width:820px){.defeats{grid-template-columns:1fr 1fr}}
+@media (max-width:460px){.defeats{grid-template-columns:1fr}}
+
+/* the water-balance vessel: the ledger, made visible */
+.tub-card{position:relative;width:100%;border:1px solid var(--rule);border-radius:20px;
+  background:linear-gradient(180deg,var(--paper) 0%,var(--leaf-wash) 100%);
+  box-shadow:var(--shadow-md);overflow:hidden}
+.tub-card svg{display:block;width:100%;height:auto}
+.tub-card .cap{position:absolute;left:16px;bottom:14px;right:16px;
+  font-family:"IBM Plex Mono",monospace;font-size:11.5px;color:var(--ink-faint);letter-spacing:.02em;
+  display:flex;justify-content:space-between;gap:10px}
+.tub-card .cap b{color:var(--water-deep);font-weight:600}
+/* the moving parts */
+@keyframes tide{0%{transform:translateY(0)}44%{transform:translateY(30px)}
+  52%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+@keyframes rayflow{0%{opacity:.15;transform:translateY(0)}50%{opacity:.5}
+  100%{opacity:.15;transform:translateY(-14px)}}
+@keyframes droplet{0%,60%{opacity:0;transform:translateY(-6px)}
+  66%{opacity:.9}100%{opacity:0;transform:translateY(30px)}}
+@media (prefers-reduced-motion:no-preference){
+  .tub-water{animation:tide 9s ease-in-out infinite}
+  .tub-ray{animation:rayflow 3.2s ease-in-out infinite}
+  .tub-ray.b{animation-delay:.7s}.tub-ray.c{animation-delay:1.4s}
+  .tub-drop{animation:droplet 9s ease-in-out infinite}
+  .tub-drop.b{animation-delay:.25s}.tub-drop.c{animation-delay:.5s}
+}
+
+</style>
 </head>
 <body>
-
 <header class="bar">
   <div class="wrap bar-in">
     <span class="brand">
@@ -458,22 +1111,64 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 
 <!-- ============ HERO ============ -->
 <section class="hero">
+  <!-- first light: a sun coming up over a hedge, drawn not photographed -->
+  <div class="hero-scene" aria-hidden="true">
+    <svg class="hero-sun" viewBox="0 0 400 400" fill="none">
+      <defs>
+        <radialGradient id="sunglow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#E7A128" stop-opacity=".38"/>
+          <stop offset="42%" stop-color="#E7A128" stop-opacity=".13"/>
+          <stop offset="100%" stop-color="#E7A128" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <circle cx="200" cy="200" r="200" fill="url(#sunglow)"/>
+      <circle cx="200" cy="200" r="62" fill="#E7A128" opacity=".26"/>
+      <circle cx="200" cy="200" r="62" stroke="#E7A128" stroke-opacity=".45" stroke-width="1.2"/>
+      <circle cx="200" cy="200" r="104" stroke="#E7A128" stroke-opacity=".18" stroke-width="1"/>
+      <circle cx="200" cy="200" r="150" stroke="#E7A128" stroke-opacity=".10" stroke-width="1"/>
+    </svg>
+    <svg class="hero-ground" viewBox="0 0 1440 170" preserveAspectRatio="xMidYMax slice" fill="none">
+      <path d="M0 132c108-26 196 12 292 6s150-38 258-34 172 40 282 32 190-40 306-32 194 34 302 22v146H0z" fill="#7FB846" fill-opacity=".16"/>
+      <path d="M0 150c126-18 214 14 330 10s186-30 296-26 176 32 288 26 182-28 294-20 156 22 232 16v14H0z" fill="#3E7C3A" fill-opacity=".14"/>
+      <g stroke="#274D22" stroke-opacity=".22" stroke-width="1.6" stroke-linecap="round">
+        <path d="M84 170c2-24-8-40-20-50M120 170c-4-30 6-48 20-58M162 170c1-20-6-33-16-42"/>
+        <path d="M436 170c3-26-9-43-22-53M474 170c-5-32 6-51 21-61M518 170c2-22-6-36-17-45"/>
+        <path d="M812 170c2-25-9-41-21-51M850 170c-4-31 6-49 20-59M892 170c1-21-6-34-16-43"/>
+        <path d="M1178 170c3-27-9-44-22-54M1218 170c-5-33 6-52 21-62M1262 170c2-23-6-37-17-46"/>
+      </g>
+    </svg>
+  </div>
+  <div class="hero-warm" aria-hidden="true"></div>
+
   <div class="wrap hero-in">
     <div class="hero-copy">
       <span class="hero-eyebrow"><span class="mono">माली</span>&nbsp;&middot;&nbsp; the gardener</span>
       <h1>Hand your garden to someone who <em>truly knows it.</em></h1>
-      <p class="hero-lede">Imagine a gardener who knows your soil by heart, reads the sky each morning, and gives every bed exactly the drink it needs. Who is there before you wake, and asks for nothing. You walk out to something green and thriving, and you never once had to think about it.</p>
+      <p class="hero-lede">A gardener who knows your soil by heart, reads the sky before dawn, and gives every bed exactly the drink it needs. Then asks you for nothing at all.</p>
+
+      <div class="morning">
+        <div class="beat">
+          <span class="t">4:41 am</span>
+          <span class="w">Read the sky</span>
+          <span class="s">1.42&Prime; gone since the rain</span>
+        </div>
+        <div class="beat">
+          <span class="t">5:00 am</span>
+          <span class="w">Watered lawn 2</span>
+          <span class="s">35 min &mdash; it had earned it</span>
+        </div>
+        <div class="beat done">
+          <span class="t">5:35 am</span>
+          <span class="w">Went quiet</span>
+          <span class="s">Nothing you need to know</span>
+        </div>
+      </div>
+
       <div class="hero-actions">
-        <a href="#see" class="btn btn-primary">See a day with Maali
+        <a href="#proof" class="btn btn-primary">Watch it decide
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#why" class="btn btn-ghost">Why it feels different</a>
-      </div>
-      <div class="hero-meta">
-        <span class="pill">Never sends you a bill</span>
-        <span class="pill">Never asks you to log in</span>
-        <span class="pill">Never leaves your home</span>
-        <span class="pill">Yours, once and for good</span>
+        <a href="#see" class="btn btn-ghost">See a day with Maali</a>
       </div>
     </div>
 
@@ -482,11 +1177,32 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
       <div class="phone">
         <img src="shots/now-watering.png" width="644" height="549" alt="The Maali app watering the back lawn: a live card reading 'Watering the lawn 2, cycle 1 of 3, the pump is up, the master is open,' nine minutes remaining, above an animated vessel filling with water.">
       </div>
-      <div class="float f-water"><span class="dot"></span><span><b>Watering now</b>the pump is up</span></div>
-      <div class="float f-cloud"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="color:var(--water)"><path d="M5 14h9a3 3 0 0 0 .3-6A4.5 4.5 0 0 0 5.5 8 3 3 0 0 0 5 14Z" stroke="currentColor" stroke-width="1.3"/></svg><span><b>1.42″ used</b>since the last rain</span></div>
+      <div class="float f-water"><span class="inner"><span class="dot"></span><span><b>Watering now</b>the pump is up</span></span></div>
+      <div class="float f-cloud"><span class="inner"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" style="color:var(--water)"><path d="M5 14h9a3 3 0 0 0 .3-6A4.5 4.5 0 0 0 5.5 8 3 3 0 0 0 5 14Z" stroke="currentColor" stroke-width="1.3"/></svg><span><b>1.42&Prime; used</b>since the last rain</span></span></div>
     </div>
   </div>
 </section>
+
+<div class="trustbar">
+  <div class="wrap in">
+      <div class="tb">
+        <svg width="19" height="19" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M10 2.5 3.5 5.2v4.4c0 4 2.8 7 6.5 8 3.7-1 6.5-4 6.5-8V5.2L10 2.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="m7.4 10 1.9 1.9 3.4-3.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tb-full"><b>Never a bill</b><span>Parts once. No subscription, ever.</span></span><b class="tb-short">No bill</b>
+      </div>
+      <div class="tb">
+        <svg width="19" height="19" viewBox="0 0 20 20" fill="none" aria-hidden="true"><rect x="4" y="8.6" width="12" height="8" rx="2" stroke="currentColor" stroke-width="1.4"/><path d="M7.2 8.6V6.4a2.8 2.8 0 0 1 5.6 0v2.2" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg>
+        <span class="tb-full"><b>Never a login</b><span>Open the page. It already knows you.</span></span><b class="tb-short">No login</b>
+      </div>
+      <div class="tb">
+        <svg width="19" height="19" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M3 9.4 10 3.6l7 5.8" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M5 10.8v5.6h10v-5.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tb-full"><b>Never the cloud</b><span>The box by your valves is all of it.</span></span><b class="tb-short">No cloud</b>
+      </div>
+      <div class="tb">
+        <svg width="19" height="19" viewBox="0 0 20 20" fill="none" aria-hidden="true"><circle cx="10" cy="10" r="7" stroke="currentColor" stroke-width="1.4"/><path d="M10 6.4v4l2.6 1.6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span class="tb-full"><b>Yours for good</b><span>You own it outright. No end-of-life switch.</span></span><b class="tb-short">Yours</b>
+    </div>
+  </div>
+</div>
 
 <!-- ============ THE FEELING ============ -->
 <section id="why">
@@ -494,13 +1210,36 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
     <div class="sec-head">
       <span class="tag"><span class="dot">●</span>&nbsp; You know the feeling</span>
       <h2>You wanted a garden. Not a second job.</h2>
+      <p class="why-lede">A box on the wall keeps its own counsel. It waters by the clock, never the weather, and the yard pays for the difference.</p>
     </div>
-    <div class="prose feel measure">
-      <p>You know the small defeats. The sprinklers running full tilt in the middle of a downpour. The corner by the gate that always goes crisp by July. The August water bill that makes you wince. The <em>smart</em> box that wanted an account, an app, and a monthly fee, all so you could turn on a hose.</p>
-      <p class="feel-turn">None of that is gardening. That is being a timer's assistant.</p>
-      <p>What you actually wanted is older and simpler than any of it. Someone who knows your patch of ground. Who sees the soil is still dark from Tuesday's rain and lets it rest. Who gives the thirsty bed a long, slow drink and the shady one just a sip. Who shows up before you are awake, and asks for nothing in return.</p>
-      <p>That is what <span class="mono" style="font-size:16px">माली</span> means. Gardener. And it is the whole of the idea: to hand your garden to someone who tends it the way you would, if you had the time, the knowledge, and forty years of doing it well.</p>
-      <p class="feel-turn">Then you get on with your life. The garden grows greener. The bill grows smaller. And the watering, for the first time, is simply no longer yours to carry.</p>
+
+    <div class="defeats">
+      <div class="defeat">
+        <svg class="di" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 14h9a3.2 3.2 0 0 0 .3-6.4A4.6 4.6 0 0 0 7.4 8 3 3 0 0 0 7 14Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M8 17.5 7 19.5M12 17.5 11 19.5M16 17.5 15 19.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <b>It waters in the rain.</b>
+        <span>The timer never looks up at the sky.</span>
+      </div>
+      <div class="defeat">
+        <svg class="di" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 20c0-5 2-8 6-9-4-1-6 1-6 4 0-4-2-6-6-5 4 1 6 4 6 10Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M5 21h14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="2 3"/></svg>
+        <b>The corner still burns.</b>
+        <span>Full sun and deep shade, watered the same.</span>
+      </div>
+      <div class="defeat">
+        <svg class="di" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5h14v14l-2.3-1.4L14.3 19 12 17.6 9.7 19 7.3 17.6 5 19Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/><path d="M9 9h6M9 12h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <b>The August bill stings.</b>
+        <span>Paid for water the soil never drank.</span>
+      </div>
+      <div class="defeat">
+        <svg class="di" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="7" y="3.5" width="10" height="17" rx="2.2" stroke="currentColor" stroke-width="1.4"/><rect x="9.4" y="10" width="5.2" height="4.4" rx="1" stroke="currentColor" stroke-width="1.3"/><path d="M10.4 10V8.8a1.6 1.6 0 0 1 3.2 0V10" stroke="currentColor" stroke-width="1.3"/></svg>
+        <b>An app to run a hose.</b>
+        <span>An account, a login, a monthly fee.</span>
+      </div>
+    </div>
+
+    <div class="prose feel measure why-turn">
+      <p class="feel-turn">None of that is gardening. It is assisting a timer.</p>
+      <p>What you wanted is older and plainer. Someone who knows your ground, reads the morning, gives the thirsty bed a long drink and the shaded one a sip, and asks for nothing back.</p>
+      <p>That is what <span class="mono" style="font-size:16px">माली</span> means. Gardener. Hand it the yard, and the watering stops being yours to carry.</p>
     </div>
   </div>
 </section>
@@ -509,27 +1248,46 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 <section id="proof">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag"><span class="dot">●</span>&nbsp; And it really works</span>
-      <h2>This is that gardener, thinking.</h2>
+      <span class="tag"><span class="dot">&#9679;</span>&nbsp; The receipt</span>
+      <h2>Twenty-one days of heat. It chose to water eight times.</h2>
     </div>
-    <div class="prose"><p class="measure">A feeling is easy to promise, so here is the receipt. This is a real, brutal stretch of Sacramento weather, watered by the very code that opens your valve. Watch it let the soil dry, wait through the cool days, then decide a bed has earned a long drink. No calendar. Just attention, the way a gardener pays it.</p></div>
+    <div class="prose"><p class="measure">Real Sacramento weather from July 2024, replayed through the very code that opens your valve. Watch it let the soil dry, sit out the cooler days, then decide a bed has earned a long drink.</p></div>
+
+    <div class="kpirow">
+      <div class="kpit heat"><span class="big">114&deg;F</span><span class="lab">the hottest afternoon in the window</span></div>
+      <div class="kpit heat"><span class="big">0.00&Prime;</span><span class="lab">rain, across all twenty-one days</span></div>
+      <div class="kpit wait"><span class="big">13 of 21</span><span class="lab">days it looked at the soil and waited</span></div>
+      <div class="kpit"><span class="big">8 runs</span><span class="lab">356 minutes, every one with a reason</span></div>
+    </div>
 
     <div class="ledger-card">
       <div class="ledger-head">
         <span class="tag">Back lawn &middot; cool-season turf, spray, loam</span>
-        <span class="right" id="ledger-range">Sacramento &middot; 5–25 July 2024</span>
+        <span class="right" id="ledger-range">Sacramento &middot; 5&ndash;25 July 2024</span>
       </div>
       <div class="ledger-body">
         <canvas id="ledger-canvas" aria-label="Twenty-one days of soil moisture deficit for a lawn zone during the July 2024 Sacramento heat wave. The deficit climbs each day as the plants use water and drops each time the zone is watered, sawtoothing against a dashed line that marks where the controller schedules a run. Eight runs occur across the window."></canvas>
       </div>
       <div class="ledger-legend">
         <span><i class="swatch"></i> deficit, inches</span>
-        <span><i class="swatch dash"></i> waters at 0.60", half of the 1.20" this soil holds</span>
+        <span><i class="swatch dash"></i> waters at 0.60&Prime;, half of the 1.20&Prime; this soil holds</span>
         <span><i class="swatch tick"></i> 8 runs, 356 minutes total</span>
-        <span style="color:var(--soil)">6.38" of thirst in 21 days &middot; 0" of rain</span>
       </div>
+
+      <div class="daystrip">
+        <div class="dhead">
+          <span class="tag">Every day, and what it decided</span>
+          <span class="hint">water left in the bed &middot; tap a day</span>
+        </div>
+        <div class="days" id="days" role="group" aria-label="Twenty-one days. Select a day to read the decision it made."></div>
+        <div class="daydetail">
+          <span class="when" id="day-when"></span>
+          <p class="said" id="day-said"></p>
+        </div>
+      </div>
+
       <div class="verdict">
-        <span class="tag verdict-key" style="color:var(--water)">Verdict</span>
+        <span class="tag verdict-key" style="color:var(--water)">Tomorrow</span>
         <p class="verdict-txt" id="verdict"></p>
       </div>
       <div class="prov">
@@ -543,26 +1301,36 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 <section id="see" class="band">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag"><span class="dot">●</span>&nbsp; A day with Maali</span>
-      <h2>The whole yard, at a glance, in plain English.</h2>
+      <span class="tag"><span class="dot">&#9679;</span>&nbsp; A day with Maali</span>
+      <h2>No number to decode.</h2>
     </div>
-    <div class="prose"><p class="measure">This is the real app, served from the little box itself. No dashboard to learn. Each bed is a tub of water you can read across the kitchen, and every decision comes with a because.</p></div>
+    <div class="prose"><p class="measure">The app is served from the box itself, and it speaks plainly. These are its own screens, and its own words.</p></div>
 
-    <div class="shots">
-      <div class="shot wide">
-        <div class="cap"><b>The beds, told as tubs</b><span>One glance says who is holding water and who is drinking now.</span></div>
-        <div class="frame"><img src="shots/beds.png" width="644" height="275" alt="Two garden beds shown as tubs of water. Lawn 1 is nearly full and holding; Lawn 2 is low and labelled 'Watering now.'"></div>
+    <div class="usp">
+      <div class="usp-copy">
+        <span class="usp-eyebrow">The beds</span>
+        <h3>Every bed is a tub of water.</h3>
+        <p>One glance from across the kitchen: this one is holding, that one is drinking now. The fill is the water left in the soil, nothing to read, nothing to convert.</p>
       </div>
-      <div class="col-right">
-        <div class="shot">
-          <div class="cap"><b>The week ahead</b><span>Every run, and why. Skips say which rule.</span></div>
-          <div class="frame"><img src="shots/plan-week.png" width="485" height="525" alt="A calendar strip of the coming week with small filling-tub day cells, followed by each planned run labelled 'Watering as usual' and rest days labelled 'Not a watering day under your district's rules.'"></div>
-        </div>
-        <div class="shot">
-          <div class="cap"><b>What the sky did</b><span>The weather in the units that matter: water.</span></div>
-          <div class="frame"><img src="shots/weather.png" width="485" height="215" alt="The weather page reading 'Lately the sky drank 1.42 inches from the yard,' with a row of recent days shown as sunny cards."></div>
-        </div>
+      <div class="usp-viz"><div class="usp-frame"><img src="shots/beds.png" alt="Two garden beds shown as tubs of water. Lawn 1 is nearly full and holding; Lawn 2 is low and labelled 'Watering now.'" loading="lazy"></div></div>
+    </div>
+
+    <div class="usp reverse">
+      <div class="usp-copy">
+        <span class="usp-eyebrow">The week</span>
+        <h3>The week is already decided.</h3>
+        <p>Each run is laid out with the reason beside it. When a day is skipped, the app says which rule skipped it, in a sentence you would say yourself.</p>
       </div>
+      <div class="usp-viz"><div class="usp-frame"><img src="shots/plan-week.png" alt="A calendar strip of the coming week with small filling-tub day cells, followed by each planned run labelled 'Watering as usual' and rest days labelled 'Not a watering day under your district's rules.'" loading="lazy"></div></div>
+    </div>
+
+    <div class="usp">
+      <div class="usp-copy">
+        <span class="usp-eyebrow">The weather</span>
+        <h3>Weather, in the unit that matters.</h3>
+        <p>Not degrees and percentages, but water. <q class="usp-q">Lately the sky drank 1.42 inches from the yard.</q> That is the number the beds are measured against.</p>
+      </div>
+      <div class="usp-viz"><div class="usp-frame"><img src="shots/weather.png" alt="The weather page reading 'Lately the sky drank 1.42 inches from the yard,' with a row of recent days shown as sunny cards." loading="lazy"></div></div>
     </div>
   </div>
 </section>
@@ -570,58 +1338,40 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 <!-- ============ THE THREE BAD OPTIONS ============ -->
 <section id="options">
   <div class="wrap">
-    <div class="sec-head">
-      <span class="tag"><span class="dot">●</span>&nbsp; The trouble with timers</span>
-      <h2>Every box at the store asks you to give something up.</h2>
+   <div class="split split--wide">
+    <div class="split-copy">
+      <div class="sec-head">
+        <span class="tag"><span class="dot">&#9679;</span>&nbsp; The trouble with timers</span>
+        <h2>Every box asks you to give something up.</h2>
+      </div>
+      <p class="opt-lede">Three kinds sit on the shelf. Each solves the problem by making another.</p>
+      <ul class="trades">
+        <li><b>The dial is faithful, but deaf.</b><span>The same minutes in a heat wave and a downpour. A valve that stuck open on Tuesday is open still.</span></li>
+        <li><b>The smart one is clever, but not yours.</b><span>Every decision routes through a cloud, paid features drift behind a plan, and the yard becomes somebody&rsquo;s data.</span></li>
+        <li><b>The open one is yours, but hard work.</b><span>Honest ownership, a decade-old feel, and a wall of settings where a sentence should be.</span></li>
+      </ul>
     </div>
-    <div class="prose"><p class="measure">You have probably stood in that aisle already, which may be why you are here. Here is the honest shape of the choice, with no hard feelings toward any of them.</p></div>
-
-    <div class="compare">
-      <div class="col">
-        <span class="who">Dial controllers</span>
-        <h3>Faithful, but deaf</h3>
+    <div class="split-viz">
+      <div class="answer-card">
+        <span class="ac-eyebrow">Maali</span>
+        <h3>Nothing to give up.</h3>
         <ul>
-          <li>Runs the same minutes in a heat wave and in a storm</li>
-          <li>Cannot tell you how much water you used</li>
-          <li>A valve that stuck open on Tuesday is still open</li>
-        </ul>
-      </div>
-      <div class="col">
-        <span class="who">Smart controllers</span>
-        <h3>Clever, but not yours</h3>
-        <ul>
-          <li>Every watering decision takes a trip through somebody's cloud</li>
-          <li>When their servers have a bad day, so does your lawn</li>
-          <li>Features you bought have a way of moving behind a plan</li>
-          <li>Your yard quietly becomes somebody's data</li>
-        </ul>
-      </div>
-      <div class="col">
-        <span class="who">Open source, so far</span>
-        <h3>Yours, but hard work</h3>
-        <ul>
-          <li>Honest ownership, with the charm of a decade ago</li>
-          <li>A wall of settings where a sentence should be</li>
-          <li>You are expected to enjoy the fiddling</li>
-        </ul>
-      </div>
-      <div class="col mine">
-        <span class="who">Maali</span>
-        <h3>Why choose?</h3>
-        <ul>
-          <li>Smart: it minds your soil, not the calendar</li>
-          <li>Local: it decides at home, even with the internet out</li>
-          <li>Private: your yard, and its data, stay yours</li>
-          <li>Kind: it explains itself in plain sentences</li>
+          <li>Minds the soil, not the calendar</li>
+          <li>Decides at home, even with the internet out</li>
+          <li>Your yard, and its data, stay yours</li>
+          <li>Explains itself in plain sentences</li>
         </ul>
       </div>
     </div>
+   </div>
   </div>
 </section>
 
 <!-- ============ HOW IT THINKS ============ -->
 <section id="thinks" class="band">
   <div class="wrap">
+   <div class="split">
+    <div class="split-copy">
     <div class="sec-head">
       <span class="tag"><span class="dot">●</span>&nbsp; How it thinks</span>
       <h2>A timer knows the day. Maali knows the soil.</h2>
@@ -638,6 +1388,62 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
       <span class="tag">Our one house rule</span>
       <p>If you cannot guess what your controller will do tomorrow morning, we have failed you. No pile of settings makes up for that.</p>
     </div>
+    </div>
+
+    <div class="split-viz">
+      <div class="tub-card">
+        <svg viewBox="0 0 360 320" role="img"
+             aria-label="A cross-section of a garden bed drawn as a tub of water. The sun and wind draw water out through the top while rain and the sprinkler add it back, and the water level is the running balance the controller keeps.">
+          <defs>
+            <linearGradient id="water" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0" stop-color="#5CBCCD" stop-opacity=".55"/>
+              <stop offset="1" stop-color="#1F87A6" stop-opacity=".85"/>
+            </linearGradient>
+            <clipPath id="vessel"><rect x="70" y="150" width="220" height="130" rx="10"/></clipPath>
+          </defs>
+
+          <!-- the sun and wind: water leaving (ET) -->
+          <circle cx="86" cy="60" r="24" fill="#E7A128" fill-opacity=".22"/>
+          <circle cx="86" cy="60" r="24" fill="none" stroke="#E7A128" stroke-opacity=".5" stroke-width="1.4"/>
+          <g stroke="#E7A128" stroke-opacity=".5" stroke-width="1.6" stroke-linecap="round">
+            <line x1="86" y1="20" x2="86" y2="30"/><line x1="120" y1="34" x2="113" y2="41"/>
+            <line x1="52" y1="34" x2="59" y2="41"/><line x1="130" y1="60" x2="120" y2="60"/>
+          </g>
+          <!-- ET wisps rising off the soil -->
+          <g fill="none" stroke="#B4652A" stroke-opacity=".5" stroke-width="2" stroke-linecap="round">
+            <path class="tub-ray"   d="M150 150c-6-10 6-16 0-26"/>
+            <path class="tub-ray b" d="M185 150c-6-10 6-16 0-26"/>
+            <path class="tub-ray c" d="M220 150c-6-10 6-16 0-26"/>
+          </g>
+
+          <!-- the cloud and sprinkler: water arriving -->
+          <g>
+            <path d="M256 66c-14 0-24 9-25 21-9 1-15 8-15 16 0 9 8 16 18 16h44c11 0 20-8 20-18 0-9-7-16-16-17-1-11-11-19-26-18Z"
+                  fill="#5CBCCD" fill-opacity=".22" stroke="#1F87A6" stroke-opacity=".45" stroke-width="1.3"/>
+            <g fill="#1F87A6" fill-opacity=".8">
+              <circle class="tub-drop"   cx="248" cy="120" r="3"/>
+              <circle class="tub-drop b" cx="266" cy="120" r="3"/>
+              <circle class="tub-drop c" cx="284" cy="120" r="3"/>
+            </g>
+          </g>
+
+          <!-- the vessel: soil holding water -->
+          <g clip-path="url(#vessel)">
+            <rect x="70" y="150" width="220" height="130" fill="#F6F4E7"/>
+            <!-- the water level = the balance; it recedes with ET, then a run refills it -->
+            <g class="tub-water">
+              <rect x="70" y="196" width="220" height="150" fill="url(#water)"/>
+              <path d="M70 196c30-7 46 7 74 4s44-10 72-6 44 8 74 2v150H70Z" fill="#5CBCCD" fill-opacity=".5"/>
+            </g>
+            <!-- the trigger line: where the soil starts to suffer -->
+            <line x1="70" y1="236" x2="290" y2="236" stroke="#B4652A" stroke-opacity=".7" stroke-width="1.6" stroke-dasharray="5 4"/>
+          </g>
+          <rect x="70" y="150" width="220" height="130" rx="10" fill="none" stroke="#274D22" stroke-opacity=".55" stroke-width="2"/>
+        </svg>
+        <div class="cap"><span>sun &amp; wind take it out</span><span><b>the balance</b> is the whole brain</span><span>rain &amp; runs put it back</span></div>
+      </div>
+    </div>
+   </div>
   </div>
 </section>
 
@@ -645,48 +1451,72 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 <section id="safety">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag"><span class="dot">●</span>&nbsp; Safety</span>
-      <h2>Four layers stop the water. The first one is not software.</h2>
+      <span class="tag"><span class="dot">&#9679;</span>&nbsp; Safety</span>
+      <h2>However it fails, the water stops.</h2>
     </div>
-    <div class="prose"><p class="measure">A watering computer can make exactly one unforgivable mess: water that will not stop. So the promise that matters most here is the one that keeps working when the software has lost its wits entirely.</p></div>
+    <div class="prose"><p class="measure">A watering computer can make exactly one unforgivable mess: water that will not stop. So pick a disaster, and watch which of the four layers is still standing when it lands.</p></div>
 
-    <div class="stackdiag">
-      <div class="layer hw">
-        <div class="lv"><b>0</b><span>hardware</span></div>
-        <div class="what">
-          <h3>The relay board closes the valve by itself</h3>
-          <p>Every valve is switched on with a countdown that lives on the relay board itself. When the countdown runs out, the board shuts the valve on its own. No firmware, no network, not even controller power is needed for that to happen.</p>
-        </div>
-        <div class="survives"><em>Survives</em> A dead processor. A cut ethernet. A yanked power supply.</div>
+    <div class="failsim">
+      <div class="fs-head">
+        <span class="tag">Pick a disaster</span>
+        <div class="disasters" id="disasters" role="group" aria-label="Choose a failure to test"></div>
       </div>
-      <div class="layer">
-        <div class="lv"><b>1</b><span>supervisor</span></div>
-        <div class="what">
-          <h3>A second task watches the first</h3>
-          <p>A second, stubborn little task keeps its own watch. It enforces the longest a valve may ever run, and once a second it asks the relays what they are really doing and raises a fuss if the answer does not match.</p>
+
+      <div class="fs-layers" id="fs-layers">
+        <div class="fl hw" data-k="hw">
+          <div class="lv"><b>0</b><span>hardware</span></div>
+          <div class="what">
+            <h3>The relay board closes the valve by itself</h3>
+            <p>Every valve is switched on with a countdown that lives on the relay board. When it runs out, the board shuts the valve &mdash; no firmware, no network, not even controller power.</p>
+          </div>
+          <div class="st"><span class="chip"></span></div>
         </div>
-        <div class="survives"><em>Survives</em> Application bugs. A hung scheduler.</div>
+        <div class="fl" data-k="sup">
+          <div class="lv"><b>1</b><span>supervisor</span></div>
+          <div class="what">
+            <h3>A second task watches the first</h3>
+            <p>It enforces the longest a valve may ever run, and once a second asks the relays what they are really doing.</p>
+          </div>
+          <div class="st"><span class="chip"></span></div>
+        </div>
+        <div class="fl" data-k="con">
+          <div class="lv"><b>2</b><span>constraints</span></div>
+          <div class="what">
+            <h3>Bad programs are refused at save time</h3>
+            <p>Checked the moment you save them against run caps, watering rules, and beds that would quarrel &mdash; before they can ever run.</p>
+          </div>
+          <div class="st"><span class="chip"></span></div>
+        </div>
+        <div class="fl" data-k="gate">
+          <div class="lv"><b>3</b><span>safe states</span></div>
+          <div class="what">
+            <h3>Every command passes one gate</h3>
+            <p>All the rules live together in one place. A rule the gate does not recognise means no, and every no is written down in plain language.</p>
+          </div>
+          <div class="st"><span class="chip"></span></div>
+        </div>
       </div>
-      <div class="layer">
-        <div class="lv"><b>2</b><span>constraints</span></div>
-        <div class="what">
-          <h3>Bad programs are refused at save time</h3>
-          <p>Programs are checked the moment you save them, against run caps, watering rules, and beds that would quarrel. A thirsty ledger can never talk anybody into a run longer than the ceiling.</p>
-        </div>
-        <div class="survives"><em>Survives</em> Configuration mistakes. Fat fingers.</div>
+
+      <div class="fs-flow" id="fs-flow">
+        <div class="lv">flow meter</div>
+        <div class="what">Down the pipe, one meter learns what each bed normally drinks. Water moving when nothing was asked for means a burst line; a trickle where a gush belongs means a clogged filter or a tired valve.</div>
+        <div class="st"><span class="chip"></span></div>
       </div>
-      <div class="layer">
-        <div class="lv"><b>3</b><span>safe states</span></div>
-        <div class="what">
-          <h3>All commands pass through one gate</h3>
-          <p>Every command walks through one gate, where all the safety rules live together in one place. A rule the gate does not recognise means no. And every no is written in the daybook with its reason, in plain language, for you to read.</p>
-        </div>
-        <div class="survives"><em>Survives</em> Everything we thought of, and the shape of what we didn't.</div>
+
+      <div class="fs-verdict">
+        <span class="mark" aria-hidden="true">
+          <svg width="19" height="19" viewBox="0 0 20 20" fill="none"><path d="m5 10.4 3.4 3.3L15 6.9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="txt" aria-live="polite">
+          <span class="big" id="fs-big"></span>
+          <span class="sub" id="fs-sub"></span>
+        </span>
       </div>
     </div>
 
-    <div class="prose measure" style="margin-top:32px">
-      <p>Down the pipe, one flow meter learns what each bed normally drinks. Water moving when nothing was asked for, or far too much of it, means a burst line: everything locks shut and you are told. A trickle where a gush belongs means a clogged filter or a tired valve. <strong>We tuned those alarms to hardly ever cry wolf</strong>, because a false alarm that stops the water in a hot week hurts more than a small leak found a day later.</p>
+    <div class="callout" style="margin-top:34px">
+      <span class="tag">Why the order matters</span>
+      <p>The layer that survives the most is the one with the least software in it. We tuned the alarms to hardly ever cry wolf, too &mdash; a false alarm that stops the water in a hot week hurts more than a small leak found a day later.</p>
     </div>
   </div>
 </section>
@@ -766,35 +1596,160 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
 <section id="build" class="band">
   <div class="wrap">
     <div class="sec-head">
-      <span class="tag"><span class="dot">●</span>&nbsp; Build it</span>
-      <h2>It takes an afternoon, a screwdriver, and the wires already in your wall.</h2>
+      <span class="tag"><span class="dot">&#9679;</span>&nbsp; Build it</span>
+      <h2>One afternoon, a screwdriver, and the wires already in your wall.</h2>
     </div>
-    <div class="prose"><p class="measure">If you have ever swapped a light fixture or built a computer, you can do this with a cup of tea beside you. Everything lands on screw terminals. The house current never enters the cabinet at all: the transformer is a plug-in brick, on purpose, so the scariest wire you will touch carries 24 volts.</p></div>
+    <div class="prose"><p class="measure">Everything lands on screw terminals. Everything clips onto one metal rail, and everything can later clip off again. No part is trapped, and no part is ours alone.</p></div>
+
+    <div class="cabinet">
+      <div class="chead">
+        <span class="tag">What is inside the box</span>
+        <span class="right">one DIN rail &middot; five modules &middot; no soldering</span>
+      </div>
+      <div class="cbody">
+        <svg viewBox="0 0 900 388" fill="none" role="img" aria-label="A cutaway of the Maali cabinet. A plug-in transformer sits outside the box and feeds it low voltage. Inside, five modules clip side by side onto a single metal DIN rail: a 24-volt power supply, the Maali controller, an eight-channel relay board, surge protection, and a screw terminal block. From the terminal block, wires leave the bottom of the box and run to the irrigation valves already buried in the garden.">
+          <!-- the plug brick, deliberately outside the cabinet -->
+          <g>
+            <rect x="22" y="150" width="78" height="54" rx="9" fill="var(--paper-warm)" stroke="var(--rule)" stroke-width="1.4"/>
+            <path d="M14 164v8M14 182v8" stroke="var(--ink-faint)" stroke-width="3" stroke-linecap="round"/>
+            <path d="M14 168h8M14 186h8" stroke="var(--ink-faint)" stroke-width="1.4"/>
+            <text x="61" y="172" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-soft)">plug-in</text>
+            <text x="61" y="186" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-soft)">24 V</text>
+            <path d="M100 177c22 0 26 -12 50 -12" stroke="var(--soil)" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+          </g>
+          <text x="22" y="128" font-family="IBM Plex Mono, monospace" font-size="11" fill="var(--soil)">mains stops here</text>
+          <path d="M46 134v10" stroke="var(--soil)" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+          <!-- the enclosure -->
+          <rect x="150" y="60" width="722" height="192" rx="14" fill="var(--paper-warm)" stroke="var(--rule)" stroke-width="1.6"/>
+          <text x="164" y="80" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-faint)" letter-spacing="1">THE CABINET, BY YOUR VALVES</text>
+
+          <!-- the rail every module clips to -->
+          <rect x="168" y="216" width="688" height="15" rx="2.5" fill="var(--rule-soft)" stroke="var(--rule)" stroke-width="1.2"/>
+          <path d="M168 220.5h688M168 226.5h688" stroke="var(--rule)" stroke-width="1"/>
+          <text x="168" y="247" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-faint)">one 35 mm rail &mdash; every part clips on, every part clips off</text>
+
+          <!-- 1. power supply -->
+          <rect x="182" y="112" width="104" height="104" rx="6" fill="var(--paper)" stroke="var(--rule)" stroke-width="1.4"/>
+          <rect x="192" y="122" width="84" height="5" rx="2.5" fill="var(--rule-soft)"/>
+          <rect x="192" y="132" width="84" height="5" rx="2.5" fill="var(--rule-soft)"/>
+          <text x="234" y="168" text-anchor="middle" font-family="Archivo, sans-serif" font-size="13" font-weight="700" fill="var(--ink-soft)">PSU</text>
+          <text x="234" y="185" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--ink-faint)">24 V dc</text>
+          <text x="234" y="204" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">1</text>
+
+          <!-- 2. the controller -->
+          <rect x="300" y="90" width="150" height="126" rx="7" fill="var(--leaf-wash)" stroke="var(--leaf)" stroke-width="1.8"/>
+          <circle cx="322" cy="110" r="4" fill="var(--lime)"/>
+          <rect x="316" y="126" width="118" height="46" rx="4" fill="var(--paper)" stroke="var(--rule)" stroke-width="1.2"/>
+          <text x="375" y="149" text-anchor="middle" font-family="Archivo, sans-serif" font-size="14" font-weight="700" fill="var(--leaf-deep)">maali</text>
+          <text x="375" y="163" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="8.5" fill="var(--ink-faint)">the whole brain</text>
+          <text x="375" y="192" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="10" fill="var(--leaf)">esp32 &middot; wi-fi</text>
+          <text x="375" y="207" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">2</text>
+
+          <!-- 3. the relay board, with its own countdown -->
+          <rect x="466" y="112" width="186" height="104" rx="6" fill="var(--paper)" stroke="var(--soil)" stroke-width="1.6"/>
+          <g>
+            <rect x="478" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="499.5" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="521" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="542.5" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="564" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="585.5" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="607" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <rect x="628.5" y="126" width="18" height="26" rx="2" fill="var(--soil-fill)" stroke="var(--soil)" stroke-width="1"/>
+            <circle cx="487" cy="162" r="3" fill="var(--lime)"/>
+            <circle cx="508.5" cy="162" r="3" fill="var(--rule)"/>
+            <circle cx="530" cy="162" r="3" fill="var(--rule)"/>
+            <circle cx="551.5" cy="162" r="3" fill="var(--lime)"/>
+            <circle cx="573" cy="162" r="3" fill="var(--rule)"/>
+            <circle cx="594.5" cy="162" r="3" fill="var(--rule)"/>
+            <circle cx="616" cy="162" r="3" fill="var(--rule)"/>
+            <circle cx="637.5" cy="162" r="3" fill="var(--rule)"/>
+          </g>
+          <text x="559" y="188" text-anchor="middle" font-family="Archivo, sans-serif" font-size="12.5" font-weight="700" fill="var(--soil)">8-channel relays</text>
+          <text x="559" y="203" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">3 &middot; keeps its own countdown</text>
+
+          <!-- 4. surge -->
+          <rect x="666" y="128" width="58" height="88" rx="6" fill="var(--paper)" stroke="var(--rule)" stroke-width="1.4"/>
+          <path d="M700 142l-14 22h11l-9 20 18-24h-11z" fill="var(--sun)" fill-opacity=".7"/>
+          <text x="695" y="196" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">surge</text>
+          <text x="695" y="208" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--ink-faint)">4</text>
+
+          <!-- 5. the screw terminals -->
+          <rect x="738" y="136" width="102" height="80" rx="5" fill="var(--paper)" stroke="var(--water)" stroke-width="1.5"/>
+          <g fill="none" stroke="var(--water)" stroke-width="1.2">
+            <circle cx="754" cy="154" r="5"/><circle cx="775" cy="154" r="5"/><circle cx="796" cy="154" r="5"/><circle cx="817" cy="154" r="5"/>
+            <circle cx="754" cy="176" r="5"/><circle cx="775" cy="176" r="5"/><circle cx="796" cy="176" r="5"/><circle cx="817" cy="176" r="5"/>
+            <path d="M751 154h6M772 154h6M793 154h6M814 154h6M751 176h6M772 176h6M793 176h6M814 176h6"/>
+          </g>
+          <text x="789" y="205" text-anchor="middle" font-family="IBM Plex Mono, monospace" font-size="9.5" fill="var(--water-deep)">5 &middot; terminals</text>
+
+          <!-- the valve wires you already have, leaving the box -->
+          <g stroke="var(--water)" stroke-width="2" fill="none" stroke-linecap="round" opacity=".75">
+            <path d="M760 216v22c0 26-100 24-100 50v18"/>
+            <path d="M782 216v30c0 22-40 20-40 42v18"/>
+            <path d="M804 216v38c0 14 18 14 18 34v14"/>
+          </g>
+          <g>
+            <circle cx="660" cy="316" r="15" fill="var(--water-fill)" stroke="var(--water)" stroke-width="1.4"/>
+            <path d="M660 309c4 5 6 7 6 10a6 6 0 1 1-12 0c0-3 2-5 6-10z" fill="var(--water)" fill-opacity=".55"/>
+            <circle cx="742" cy="316" r="15" fill="var(--water-fill)" stroke="var(--water)" stroke-width="1.4"/>
+            <path d="M742 309c4 5 6 7 6 10a6 6 0 1 1-12 0c0-3 2-5 6-10z" fill="var(--water)" fill-opacity=".55"/>
+            <circle cx="822" cy="316" r="15" fill="var(--water-fill)" stroke="var(--water)" stroke-width="1.4"/>
+            <path d="M822 309c4 5 6 7 6 10a6 6 0 1 1-12 0c0-3 2-5 6-10z" fill="var(--water)" fill-opacity=".55"/>
+          </g>
+          <text x="872" y="356" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--water-deep)">the valves already in your garden</text>
+          <text x="872" y="372" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-faint)">one common, one wire per bed &mdash; unchanged</text>
+
+          <!-- the reassurance, said once, in the picture -->
+          <text x="150" y="290" font-family="Archivo, sans-serif" font-size="13" font-weight="600" fill="var(--soil)">The scariest wire you will touch carries 24 volts.</text>
+          <text x="150" y="308" font-family="IBM Plex Mono, monospace" font-size="10.5" fill="var(--ink-faint)">A plug-in brick, on purpose: mains never enters the cabinet.</text>
+        </svg>
+      </div>
+      <div class="cfoot">
+        Every module is an off-the-shelf part with a second source listed, and the enclosure is a standard one you can buy anywhere. <strong>Nothing in here is ours alone.</strong>
+      </div>
+    </div>
+
+    <div class="aftbar">
+      <div class="albl">
+        <span class="tag">The whole job, to scale</span>
+        <span class="tot">3 h 15 m</span>
+      </div>
+      <div class="abar" role="img" aria-label="A bar showing the build broken into four timed steps: ordering parts 30 minutes, clipping the modules to the rail one hour, moving the valve wires one hour, and setup 45 minutes — three hours and fifteen minutes in total — followed by an open-ended fifth step that takes no time at all.">
+        <div class="s1">order &middot; 30m</div>
+        <div class="s2">assemble &middot; 1h</div>
+        <div class="s3">rewire &middot; 1h</div>
+        <div class="s4">set up &middot; 45m</div>
+        <div class="s5">&rarr; then nothing</div>
+      </div>
+      <div class="ascale"><span>1:00 pm</span><span>2:00</span><span>3:00</span><span>4:15 pm</span></div>
+    </div>
 
     <div class="steps">
       <div class="step">
         <span class="idx">1</span>
-        <div class="body"><h3>Order the parts</h3><p>One list, supplier links, a spare source for every line, and a short note on the three choices that change the price.</p></div>
+        <div class="body"><h3>Order the parts</h3><p>One list, supplier links, a spare source for every line.<span class="why">and a note on the three choices that change the price</span></p></div>
         <span class="time">~30 min</span>
       </div>
       <div class="step">
         <span class="idx">2</span>
-        <div class="body"><h3>Clip it to the rail</h3><p>Power supply, controller, relay board, surge modules, terminals. Everything clips onto one metal rail, and everything can later clip off again. No part is trapped.</p></div>
+        <div class="body"><h3>Clip it to the rail</h3><p>Power supply, controller, relays, surge, terminals. All five snap onto the one rail.<span class="why">no soldering, no drilling, no part trapped</span></p></div>
         <span class="time">~1 hr</span>
       </div>
       <div class="step">
         <span class="idx">3</span>
-        <div class="body"><h3>Move the valve wires across</h3><p>Pull the labelled wires off the old timer and land them on the new terminals. One common, one per bed. The old box comes off the wall last, once you are sure.</p></div>
+        <div class="body"><h3>Move the valve wires across</h3><p>Pull the labelled wires off the old timer and land them on the new terminals.<span class="why">the old box comes off the wall last, once you are sure</span></p></div>
         <span class="time">~1 hr</span>
       </div>
       <div class="step">
         <span class="idx">4</span>
-        <div class="body"><h3>Walk through setup</h3><p>Your town, your soil, then bed by bed. <strong>Each bed runs for thirty seconds while you name it</strong>, so you see your own sprinklers pop up as you type. A swapped pair of wires shows itself at the one moment it is cheap to fix.</p></div>
+        <div class="body"><h3>Walk through setup</h3><p>Your town, your soil, then bed by bed. <strong>Each bed runs for thirty seconds while you name it</strong>, so you watch your own sprinklers pop up as you type.<span class="why">a swapped pair of wires shows itself when it is still cheap to fix</span></p></div>
         <span class="time">~45 min</span>
       </div>
       <div class="step">
         <span class="idx">5</span>
-        <div class="body"><h3>Stop thinking about it</h3><p>Set your district's watering days once and go live your life. It waters, it explains, it emails nobody. If anything ever goes wrong, it tells you which rule said no and why.</p></div>
+        <div class="body"><h3>Stop thinking about it</h3><p>Set your district&rsquo;s watering days once and go live your life. It waters, it explains, it emails nobody.<span class="why">and if anything ever goes wrong, it tells you which rule said no</span></p></div>
         <span class="time">the rest</span>
       </div>
     </div>
@@ -922,6 +1877,7 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
   {d:"Jul 25",t:103,e:351000,a:611033,b:35,r:2115}
   ];
   var MAD = 600000, RES = 1200000;   /* the zone's derived MAD and reservoir */
+  window.MAALI_DAYS = DAYS; window.MAALI_MAD = MAD; window.MAALI_RES = RES;
 
   /* The polyline is the ledger verbatim: ET pushes the deficit up across the
      day, a run drops it back.  Nothing here is smoothed or invented. */
@@ -1068,5 +2024,158 @@ footer{border-top:1px solid var(--rule);padding:56px 0 68px;background:var(--pap
   });
 })();
 </script>
+
+<script>
+/* ---- twenty-one days, each one a decision you can read ---- */
+(function(){
+  var DAYS = window.MAALI_DAYS, MAD = window.MAALI_MAD, RES = window.MAALI_RES;
+  var grid = document.getElementById("days");
+  if(!grid || !DAYS) return;
+  var whenEl = document.getElementById("day-when"), saidEl = document.getElementById("day-said");
+  var mad = (MAD/1e6).toFixed(2);
+  var cells = [];
+
+  function inches(v){ return (v/1e6).toFixed(2); }
+
+  function show(i){
+    var d = DAYS[i];
+    for(var c=0;c<cells.length;c++) cells[c].setAttribute("aria-pressed", c===i ? "true" : "false");
+    whenEl.textContent = d.d + " · " + d.t + "°F";
+    if(d.r > 0){
+      saidEl.innerHTML = '<b class="ran">Watered ' + Math.round(d.r/60) + ' minutes, before sunrise.</b> ' +
+        'The bed had drawn down ' + inches(d.a) + '″, past the ' + mad +
+        '″ line where this soil starts to suffer.';
+    } else {
+      saidEl.innerHTML = '<b>Waited.</b> ' + inches(d.a) + '″ down of the ' + mad +
+        '″ it is allowed to lose. Still enough in the bank, so it did nothing at all.';
+    }
+  }
+
+  for(var i=0;i<DAYS.length;i++){
+    (function(i){
+      var d = DAYS[i];
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "day" + (d.r > 0 ? " ran" : "");
+      b.setAttribute("aria-pressed","false");
+      b.setAttribute("aria-label", d.d + ", " + d.t + " degrees, " + (d.r>0 ? "watered" : "waited"));
+      var f = document.createElement("span");
+      f.className = "fill";
+      /* what the bed is still holding at the end of the day, the way the app draws a tub */
+      f.style.height = Math.max(4, Math.min(100, ((RES-d.b)/RES)*100)) + "%";
+      b.appendChild(f);
+      b.addEventListener("click", function(){ show(i); });
+      b.addEventListener("mouseenter", function(){ show(i); });
+      grid.appendChild(b);
+      cells.push(b);
+    })(i);
+  }
+  show(5);   /* 109 degrees, and it waited */
+})();
+
+/* ---- pick a disaster: which layers are still standing ---- */
+(function(){
+  var host = document.getElementById("disasters");
+  if(!host) return;
+  var layers = document.getElementById("fs-layers");
+  var flow = document.getElementById("fs-flow");
+  var bigEl = document.getElementById("fs-big"), subEl = document.getElementById("fs-sub");
+
+  /* order: hardware, supervisor, constraints, gate, flow meter */
+  var CASES = [
+    { id:"cpu", label:"The processor dies",
+      s:["catches","gone","gone","gone","gone"],
+      big:"The valve still closes.",
+      sub:"The countdown lives on the relay board, not in the firmware. When it runs out the board shuts the valve by itself — no processor, no network, not even controller power required." },
+    { id:"power", label:"The power is yanked",
+      s:["catches","gone","gone","gone","gone"],
+      big:"The valve still closes.",
+      sub:"A valve is held open by electricity. Take the power away and every one of them springs shut. That is the shape of the hardware, not a feature anyone had to write." },
+    { id:"net", label:"The internet is cut",
+      s:["holds","holds","holds","holds","holds"],
+      big:"Nothing happens at all.",
+      sub:"Maali never needed the network to water — only to look up what the sky has been doing. It falls back to your local averages, keeps watering, and says so plainly on the screen." },
+    { id:"bug", label:"The scheduler hangs",
+      s:["holds","catches","gone","gone","holds"],
+      big:"A second task stops it.",
+      sub:"The supervisor keeps its own watch on the longest a valve may ever run, and once a second it asks the relays what they are really doing. A disagreement is a fuss, immediately." },
+    { id:"prog", label:"You save a bad program",
+      s:["holds","holds","catches","holds","holds"],
+      big:"It is refused before it can ever run.",
+      sub:"Programs are checked the moment you save them, against run caps, watering rules, and beds that would quarrel. A thirsty ledger cannot talk anybody past the ceiling." },
+    { id:"burst", label:"A pipe bursts",
+      s:["holds","holds","holds","catches","catches"],
+      big:"Everything locks shut, and you are told.",
+      sub:"The meter knows what that bed normally drinks. Water moving when nothing was asked for means a burst line: the gate closes every valve and writes down why, in a sentence." }
+  ];
+
+  var rows = layers.querySelectorAll(".fl");
+  var chips = [];
+  for(var r=0;r<rows.length;r++) chips.push(rows[r].querySelector(".chip"));
+  chips.push(flow.querySelector(".chip"));
+  var nodes = [];
+  for(var n=0;n<rows.length;n++) nodes.push(rows[n]);
+  nodes.push(flow);
+
+  var WORD = { catches:"stops it", holds:"still there", gone:"gone" };
+
+  function apply(k){
+    var c = CASES[k];
+    for(var i=0;i<nodes.length;i++){
+      nodes[i].setAttribute("data-s", c.s[i]);
+      chips[i].textContent = WORD[c.s[i]];
+    }
+    bigEl.textContent = c.big;
+    subEl.textContent = c.sub;
+    for(var b=0;b<btns.length;b++) btns[b].setAttribute("aria-pressed", b===k ? "true" : "false");
+  }
+
+  var btns = [];
+  for(var i=0;i<CASES.length;i++){
+    (function(i){
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "dbtn";
+      b.textContent = CASES[i].label;
+      b.setAttribute("aria-pressed","false");
+      b.addEventListener("click", function(){ apply(i); });
+      host.appendChild(b);
+      btns.push(b);
+    })(i);
+  }
+  apply(0);
+})();
+</script>
+<script>
+/* Dawn -> morning as you scroll: set --p (0..1) on the hero so the sun
+   rises and warms, the hedge recedes, the device drifts.
+   A rAF poller running only while the hero is on screen reads the hero's
+   own position each frame -- so it tracks the scroll no matter which
+   element actually scrolls (window, or a wrapping panel, as inside an
+   embedded artifact). Skipped when the reader prefers reduced motion. */
+(function(){
+  var hero = document.querySelector('.hero');
+  if(!hero) return;
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var running = false;
+  function frame(){
+    var r = hero.getBoundingClientRect();
+    var span = Math.max(1, hero.offsetHeight * 0.8);
+    var p = Math.min(1, Math.max(0, -r.top / span));
+    hero.style.setProperty('--p', p.toFixed(3));
+    if(running) requestAnimationFrame(frame);
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      if(es[0].isIntersecting){ if(!running){ running = true; requestAnimationFrame(frame); } }
+      else { running = false; hero.style.setProperty('--p','1'); }
+    });
+    io.observe(hero);
+  } else {
+    running = true; requestAnimationFrame(frame);
+  }
+})();
+</script>
+
 </body>
 </html>
